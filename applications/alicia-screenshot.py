@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Author: Proyecto Tomorrow
-Version: 2.0.0
+Version: 3.1.0
 """
 
 import os
@@ -39,7 +39,7 @@ except (ImportError, ValueError) as e:
 # Constants
 APP_NAME = "Alicia Screenshot"
 APP_ID = "com.proyectoTomorrow.alicia.screenshot"
-VERSION = "2.0.0"
+VERSION = "3.1.0"
 SCREENSHOT_DIR = os.path.expanduser("~/Pictures/Screenshots")
 HISTORY_FILE = os.path.expanduser("~/.config/alicia/screenshot-history.txt")
 MAX_HISTORY = 20

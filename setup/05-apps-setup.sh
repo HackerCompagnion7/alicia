@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Installs pre-installed applications for the Alicia Desktop.
 #               Covers development tools, editors, browsers, office,
 #               graphics, terminals, system/network/media tools,
@@ -34,7 +34,7 @@ set -euo pipefail
 # ============================================================================
 readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}" .sh)"
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SCRIPT_VERSION="2.0.0"
+readonly SCRIPT_VERSION="3.1.0"
 
 # ============================================================================
 # Source Alicia Libraries
@@ -917,7 +917,7 @@ install_alicia_custom_apps() {
 # Alicia Desktop Environment - Welcome Application
 echo \"+======================================================+\"
 echo \"|          Welcome to Alicia Desktop!                  |\"
-echo \"|          Version 2.0.0 - Proyecto Tomorrow           |\"
+echo \"|          Version 3.1.0 - Proyecto Tomorrow           |\"
 echo \"?======================================================?\"
 echo \"|                                                     |\"
 echo \"|  Alicia is your complete Linux desktop on Android.  |\"
@@ -994,7 +994,7 @@ DESKTOP_EOF
 echo \"Alicia Desktop Environment - System Information\"
 echo \"================================================\"
 echo \"\"
-echo \"Alicia Version:   2.0.0\"
+echo \"Alicia Version:   3.1.0\"
 echo \"Distribution:     Alpine Linux (proot)\"
 echo \"Kernel:           \$(uname -r)\"
 echo \"Architecture:     \$(uname -m)\"

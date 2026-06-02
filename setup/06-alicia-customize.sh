@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Customizes the desktop environment to be "Alicia" with
 #               Proyecto Tomorrow branding. Applies blue/white accent theme,
 #               custom wallpaper, XFCE panel layout, custom menu entries,
@@ -36,7 +36,7 @@ set -euo pipefail
 # ============================================================================
 readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}" .sh)"
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SCRIPT_VERSION="2.0.0"
+readonly SCRIPT_VERSION="3.1.0"
 
 # ============================================================================
 # Source Alicia Libraries
@@ -342,7 +342,7 @@ set_custom_wallpaper() {
                 # Add version text
                 convert "${WALLPAPER_DIR}/alicia-default.png" \
                     -gravity SouthEast -pointsize 14 -fill "rgba(255,255,255,0.3)" \
-                    -font DejaVu-Sans -annotate +20+20 "Alicia Desktop v2.0.0 | Proyecto Tomorrow" \
+                    -font DejaVu-Sans -annotate +20+20 "Alicia Desktop v3.1.0 | Proyecto Tomorrow" \
                     "${WALLPAPER_DIR}/alicia-default.png" 2>/dev/null || true
 
                 echo "Wallpaper generated with ImageMagick"
@@ -510,7 +510,7 @@ Version=1.0
 Type=Application
 Name=About Alicia
 Comment=Information about Alicia Desktop Environment
-Exec=xfce4-terminal -e \"bash -c 'echo \\\"Alicia Desktop Environment v2.0.0\\\"; echo \\\"Copyright (C) 2005-2025 Proyecto Tomorrow\\\"; echo \\\"\\\"; echo \\\"A complete Linux desktop for Android\\\"; echo \\\"Powered by Termux, proot, and XFCE4\\\"; echo \\\"\\\"; echo \\\"Licensed under GNU GPL v3.0\\\"; read -p \\\"\\\"'\"
+Exec=xfce4-terminal -e \"bash -c 'echo \\\"Alicia Desktop Environment v3.1.0\\\"; echo \\\"Copyright (C) 2005-2025 Proyecto Tomorrow\\\"; echo \\\"\\\"; echo \\\"A complete Linux desktop for Android\\\"; echo \\\"Powered by Termux, proot, and XFCE4\\\"; echo \\\"\\\"; echo \\\"Licensed under GNU GPL v3.0\\\"; read -p \\\"\\\"'\"
 Icon=dialog-information
 Terminal=false
 Categories=System;
@@ -663,7 +663,7 @@ create_welcome_app() {
 # Uses zenity or yad for graphical display
 
 TITLE=\"Alicia Desktop Environment\"
-VERSION=\"2.0.0\"
+VERSION=\"3.1.0\"
 VENDOR=\"Proyecto Tomorrow\"
 
 WELCOME_TEXT=\"Welcome to Alicia Desktop Environment v${VERSION}
@@ -1595,7 +1595,7 @@ mark_setup_complete() {
     cat > "${ALICIA_BASE_DIR}/.setup-complete" << 'COMPLETE_EOF'
 # Alicia Desktop Environment - Setup Complete
 # This file marks that all setup steps have been completed.
-ALICIA_VERSION=2.0.0
+ALICIA_VERSION=3.1.0
 ALICIA_CODENAME=Tomorrow
 SETUP_COMPLETED_AT=TIMESTAMP
 VENDOR=Proyecto Tomorrow
@@ -1698,7 +1698,7 @@ main() {
     echo "  |                                                       |"
     echo "  |      ALICIA DESKTOP SETUP COMPLETE!            |"
     echo "  |                                                       |"
-    echo "  |     Version:  2.0.0 (Tomorrow)                       |"
+    echo "  |     Version:  3.1.0 (Tomorrow)                       |"
     echo "  |     Vendor:   Proyecto Tomorrow                      |"
     echo "  |     License:  GNU GPL v3.0                           |"
     echo "  |                                                       |"

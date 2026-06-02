@@ -10,7 +10,7 @@
 # (at your option) any later version.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  UI helper library providing dialog functions, VNC display
 #               configuration, desktop notification, wallpaper/theme management,
 #               launcher creation, and accessibility configuration.
@@ -716,7 +716,7 @@ ui_set_locale() {
 
 # ui_show_welcome - Show Alicia welcome screen
 ui_show_welcome() {
-    local welcome_text="Welcome to Alicia Desktop Environment v${ALICIA_VERSION:-2.0.0}
+    local welcome_text="Welcome to Alicia Desktop Environment v${ALICIA_VERSION:-3.1.0}
 
 Proyecto Tomorrow presents Alicia - your complete Linux desktop on Android.
 
@@ -739,7 +739,7 @@ For help, visit: https://github.com/proyecto-tomorrow/alicia"
 # ui_show_about - Show about dialog
 ui_show_about() {
     local about_text="Alicia Desktop Environment
-Version ${ALICIA_VERSION:-2.0.0} '${ALICIA_CODENAME:-Tomorrow}'
+Version ${ALICIA_VERSION:-3.1.0} '${ALICIA_CODENAME:-Tomorrow}'
 
 Copyright (C) 2005-2025 Proyecto Tomorrow
 

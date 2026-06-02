@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Comprehensive backup and restore script for the Alicia
 #               Desktop Environment. Supports full and selective backups,
 #               encrypted backups, remote storage, scheduling, verification,

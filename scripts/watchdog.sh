@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Watchdog daemon for the Alicia Desktop Environment. Monitors
 #               VNC, proot, Xvfb, and desktop processes, auto-restarts crashed
 #               services, detects memory leaks and disk issues, and provides

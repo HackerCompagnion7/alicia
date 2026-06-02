@@ -15,7 +15,7 @@
 # GNU General Public License for more details.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  System management library providing proot management, rootfs
 #               operations, package management, VNC/display management, service
 #               management, user management, and system information gathering.
@@ -130,7 +130,7 @@ proot_start() {
         "LC_ALL=en_US.UTF-8"
         "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
         "TERM=xterm-256color"
-        "ALICIA_VERSION=${ALICIA_VERSION:-2.0.0}"
+        "ALICIA_VERSION=${ALICIA_VERSION:-3.1.0}"
         "ALICIA_HOME=/home/alicia"
     )
 
@@ -649,7 +649,7 @@ user_set_password() {
 # system_info - Gather comprehensive system information
 system_info() {
     local info=""
-    info+="Alicia Desktop Environment v${ALICIA_VERSION:-2.0.0}\n"
+    info+="Alicia Desktop Environment v${ALICIA_VERSION:-3.1.0}\n"
     info+="==========================================\n\n"
 
     # Android/Termux info

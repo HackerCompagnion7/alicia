@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Sets up the XFCE4 desktop environment inside the proot
 #               Alpine Linux installation. Installs X11, XFCE4 core,
 #               goodies, themes, fonts, audio, multimedia, printing,
@@ -34,7 +34,7 @@ set -euo pipefail
 # ============================================================================
 readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}" .sh)"
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SCRIPT_VERSION="2.0.0"
+readonly SCRIPT_VERSION="3.1.0"
 
 # ============================================================================
 # Source Alicia Libraries
@@ -854,7 +854,7 @@ Version=1.0
 Type=Application
 Name=Alicia System Info
 Comment=Show Alicia system information
-Exec=xfce4-terminal -e \"bash -c 'echo \\\"Alicia Desktop Environment v2.0.0\\\"; echo \\\"Proyecto Tomorrow\\\"; uname -a; free -h; df -h / ; read -p Press_Enter'\"
+Exec=xfce4-terminal -e \"bash -c 'echo \\\"Alicia Desktop Environment v3.1.0\\\"; echo \\\"Proyecto Tomorrow\\\"; uname -a; free -h; df -h / ; read -p Press_Enter'\"
 Icon=dialog-information
 Terminal=false
 Categories=System;

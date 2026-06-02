@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Comprehensive logging library with multiple output targets,
 #               log rotation, color-coded console output, structured logging,
 #               performance timing, and log analysis capabilities.
@@ -114,7 +114,7 @@ log_init() {
             echo "#============================================================================"
             echo "# Alicia Desktop Environment Log File"
             echo "# Created: $(date "+$ALICIA_LOG_TIMESTAMP_FORMAT")"
-            echo "# Version: ${ALICIA_VERSION:-2.0.0}"
+            echo "# Version: ${ALICIA_VERSION:-3.1.0}"
             echo "#============================================================================"
             echo ""
         } > "$ALICIA_LOG_FILE"

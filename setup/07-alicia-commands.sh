@@ -15,7 +15,7 @@
 # GNU General Public License for more details.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Creates ALL internal Alicia commands inside the proot
 #               environment and copies the overlay to ensure executables
 #               exist in the final Debian/Alpine system. Also installs
@@ -29,7 +29,7 @@ set -euo pipefail
 # ============================================================================
 readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}" .sh)"
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SCRIPT_VERSION="2.0.0"
+readonly SCRIPT_VERSION="3.1.0"
 
 # ============================================================================
 # Source Alicia Libraries
@@ -61,7 +61,7 @@ readonly ALICIA_USER="alicia"
 readonly ALICIA_USER_HOME="/home/alicia"
 readonly ALICIA_BIN="/usr/bin"
 readonly ALICIA_SHARE="/usr/share/alicia"
-readonly ALICIA_VERSION_NUM="2.0.0"
+readonly ALICIA_VERSION_NUM="3.1.0"
 
 # ============================================================================
 # State Tracking
@@ -222,7 +222,7 @@ set -euo pipefail
 
 echo "========================================="
 echo "  Alicia Desktop Environment - Health Check"
-echo "  Version: 2.0.0"
+echo "  Version: 3.1.0"
 echo "========================================="
 echo ""
 

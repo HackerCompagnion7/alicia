@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Interactive and command-line configuration management for
 #               the Alicia Desktop Environment. Supports dialog/whiptail UI,
 #               configuration export/import, validation, and backup.

@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Core library providing version management, path constants,
 #               state management, action/command dispatch, process management,
 #               dependency checking, configuration parsing, lock management,
@@ -39,10 +39,10 @@ _ALICIA_CORE_LOADED=1
 # ============================================================================
 # Version Constants
 # ============================================================================
-readonly ALICIA_VERSION="2.0.0"
+readonly ALICIA_VERSION="3.1.0"
 readonly ALICIA_CODENAME="Tomorrow"
-readonly ALICIA_VERSION_MAJOR=2
-readonly ALICIA_VERSION_MINOR=0
+readonly ALICIA_VERSION_MAJOR=3
+readonly ALICIA_VERSION_MINOR=1
 readonly ALICIA_VERSION_PATCH=0
 readonly ALICIA_BUILD_DATE="$(date -u '+%Y-%m-%d %H:%M:%S UTC' 2>/dev/null || echo 'unknown')"
 readonly ALICIA_LICENSE="GPL-3.0-or-later"
@@ -79,7 +79,7 @@ readonly ALICIA_CERT_DIR="${ALICIA_CERT_DIR:-${ALICIA_HOME}/certs}"
 readonly ALICIA_DEFAULT_VNC_PORT=5901
 readonly ALICIA_DEFAULT_VNC_RESOLUTION="1280x720"
 readonly ALICIA_DEFAULT_DESKTOP_ENV="xfce4"
-readonly ALICIA_DEFAULT_PROOT_DISTRO="debian"
+readonly ALICIA_DEFAULT_PROOT_DISTRO="alpine"
 readonly ALICIA_DEFAULT_PROOT_RELEASE="bookworm"
 readonly ALICIA_DEFAULT_PROOT_ARCH="arm64"
 readonly ALICIA_DEFAULT_DISPLAY=":1"
@@ -203,7 +203,7 @@ alicia_version_compare() {
 }
 
 # Get the full version string with codename.
-# Output: "2.0.0 (Tomorrow)"
+# Output: "3.1.0 (Tomorrow)"
 alicia_get_version() {
     echo "${ALICIA_VERSION} (${ALICIA_CODENAME})"
 }

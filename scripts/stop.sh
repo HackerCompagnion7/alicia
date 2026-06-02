@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Main stop script for the Alicia Desktop Environment.
 #               Gracefully stops desktop, VNC, and proot, then cleans up
 #               all state, PID files, and temporary resources.

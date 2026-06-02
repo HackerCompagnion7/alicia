@@ -3,7 +3,7 @@
 
 A complete enterprise-grade Linux desktop environment for Android, powered by Termux, proot, and XFCE4.
 
-**Version:** 2.0.0 (Codename: Tomorrow)
+**Version:** 3.1.0 (Codename: Tomorrow)
 **License:** GNU GPL v3.0+
 **Author:** Proyecto Tomorrow (20+ years of experience)
 

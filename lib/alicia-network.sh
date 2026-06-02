@@ -5,7 +5,7 @@
 # Copyright (C) 2005-2025 Proyecto Tomorrow
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Network management library providing connectivity testing,
 #               smart downloading, SSH/web server management, DNS configuration,
 #               network diagnostics, and GitHub API interaction.
@@ -382,7 +382,7 @@ network_diagnose() {
 # github_check_update - Check for Alicia updates on GitHub
 github_check_update() {
     local repo="${1:-proyecto-tomorrow/alicia}"
-    local current_version="${2:-${ALICIA_VERSION:-2.0.0}}"
+    local current_version="${2:-${ALICIA_VERSION:-3.1.0}}"
 
     log_info "Checking for updates: $repo"
 

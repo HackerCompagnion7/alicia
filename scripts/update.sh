@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Update management script for the Alicia Desktop Environment.
 #               Checks for updates on GitHub, downloads and applies them with
 #               backup, rollback, and integrity verification support.

@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Author: Proyecto Tomorrow
-Version: 2.0.0
+Version: 3.1.0
 """
 
 import os
@@ -38,7 +38,7 @@ except (ImportError, ValueError) as e:
 # Constants
 APP_NAME = "Alicia Welcome"
 APP_ID = "com.proyectoTomorrow.alicia.welcome"
-VERSION = "2.0.0"
+VERSION = "3.1.0"
 CONFIG_DIR = os.path.expanduser("~/.config/alicia")
 WELCOME_PREF_FILE = os.path.join(CONFIG_DIR, "welcome-prefs.json")
 

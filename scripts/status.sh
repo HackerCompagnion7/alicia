@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Comprehensive status reporting for the Alicia Desktop
 #               Environment. Shows system state, service status, resource
 #               usage, and connectivity information with color-coded output.

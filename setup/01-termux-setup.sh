@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Sets up the Termux environment for Alicia Desktop.
 #               Updates packages, installs essentials, configures storage,
 #               creates directory structure, sets environment variables,
@@ -32,7 +32,7 @@ set -euo pipefail
 # ============================================================================
 readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}" .sh)"
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SCRIPT_VERSION="2.0.0"
+readonly SCRIPT_VERSION="3.1.0"
 
 # ============================================================================
 # Source Alicia Libraries
@@ -637,13 +637,13 @@ create_alicia_cli() {
 # alicia-cli - Alicia Desktop Environment Command-Line Interface
 # ============================================================================
 # Copyright (C) 2005-2025 Proyecto Tomorrow
-# Version: 2.0.0
+# Version: 3.1.0
 # ============================================================================
 
 set -euo pipefail
 
 ALICIA_HOME="${ALICIA_HOME:-$HOME/alicia}"
-ALICIA_VERSION="${ALICIA_VERSION:-2.0.0}"
+ALICIA_VERSION="${ALICIA_VERSION:-3.1.0}"
 ALICIA_DISTRO_NAME="${ALICIA_DISTRO_NAME:-alpine}"
 
 # Color output

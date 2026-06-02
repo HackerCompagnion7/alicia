@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ============================================================================
 # Author:       Proyecto Tomorrow
-# Version:      2.0.0
+# Version:      3.1.0
 # Description:  Sets up the proot Linux environment for Alicia Desktop.
 #               Installs Alpine Linux via proot-distro, configures networking,
 #               creates the alicia user, sets up groups, profiles, mounts,
@@ -33,7 +33,7 @@ set -euo pipefail
 # ============================================================================
 readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}" .sh)"
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SCRIPT_VERSION="2.0.0"
+readonly SCRIPT_VERSION="3.1.0"
 
 # ============================================================================
 # Source Alicia Libraries
@@ -528,7 +528,7 @@ export VISUAL="nano"
 export PAGER="less"
 
 # Alicia Desktop Environment variables
-export ALICIA_VERSION="2.0.0"
+export ALICIA_VERSION="3.1.0"
 export ALICIA_HOME="/home/alicia"
 export DISPLAY=":1"
 export XDG_RUNTIME_DIR="/run/user/1000"
