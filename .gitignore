@@ -1,0 +1,21 @@
+# Build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.tmp
+
+# Test results
+tests/results/
+
+# State files
+.*.state
+.alicia-*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

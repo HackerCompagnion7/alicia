@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<channel name="xsettings" version="1.0">
+  <!-- ============================================================
+       Alicia Desktop Environment - X Settings Configuration
+       Proyecto Tomorrow - Enterprise Linux Desktop for Android
+       ============================================================ -->
+
+  <property name="Net" type="empty">
+    <!-- GTK Theme -->
+    <property name="ThemeName" type="string" value="Adwaita"/>
+    <!-- Icon Theme -->
+    <property name="IconThemeName" type="string" value="Adwaita"/>
+    <!-- Font -->
+    <property name="Font" type="string" value="Sans 10"/>
+    <!-- Cursor Theme -->
+    <property name="CursorThemeName" type="string" value="Adwaita"/>
+    <!-- Cursor Size -->
+    <property name="CursorSize" type="int" value="24"/>
+    <!-- DPI -->
+    <property name="DPI" type="int" value="96"/>
+    <!-- Window scaling factor (for HiDPI) -->
+    <property name="WindowScalingFactor" type="int" value="1"/>
+    <!-- Toolbar Icon Size -->
+    <property name="ToolbarIconSize" type="int" value="3"/>
+    <!-- Toolbar Style: 0=icons, 1=text, 2=both, 3=both-horiz -->
+    <property name="ToolbarStyle" type="int" value="3"/>
+    <!-- Double click time (ms) -->
+    <property name="DoubleClickTime" type="int" value="400"/>
+    <!-- Drag threshold -->
+    <property name="DragThreshold" type="int" value="8"/>
+    <!-- Sound theme -->
+    <property name="SoundThemeName" type="string" value="freedesktop"/>
+    <!-- Event sounds -->
+    <property name="EnableEventSounds" type="bool" value="true"/>
+    <!-- Input feedback sounds -->
+    <property name="EnableInputFeedbackSounds" type="bool" value="false"/>
+    <!-- Menu bar acceleration key -->
+    <property name="MenuBarAccelerator" type="string" value="F10"/>
+  </property>
+
+  <property name="Gtk" type="empty">
+    <!-- Color scheme: prefer-dark or prefer-light -->
+    <property name="ApplicationPreferDarkTheme" type="bool" value="false"/>
+    <!-- Can change accelerators -->
+    <property name="CanChangeAccels" type="bool" value="false"/>
+    <!-- Button images -->
+    <property name="ButtonImages" type="bool" value="true"/>
+    <!-- Menu images -->
+    <property name="MenuImages" type="bool" value="true"/>
+    <!-- Cursor blink -->
+    <property name="CursorBlink" type="bool" value="true"/>
+    <!-- Cursor blink time (ms) -->
+    <property name="CursorBlinkTime" type="int" value="1200"/>
+    <!-- IM module -->
+    <property name="IMModule" type="string" value=""/>
+    <!-- IM preedit style -->
+    <property name="IMPreeditStyle" type="string" value=""/>
+    <!-- IM status style -->
+    <property name="IMStatusStyle" type="string" value=""/>
+    <!-- Key theme name -->
+    <property name="KeyThemeName" type="string" value=""/>
+    <!-- Menu bar delay (ms) -->
+    <property name="MenuBarPopupDelay" type="int" value="0"/>
+    <!-- Scrolled window placement: 0=top-left, 1=bottom-left, 2=top-right, 3=bottom-right -->
+    <property name="ScrolledWindowPlacement" type="int" value="0"/>
+    <!-- Toolbar style (override Net) -->
+    <property name="ToolbarStyle" type="int" value="3"/>
+    <!-- Shell shows menubar -->
+    <property name="ShellShowsMenubar" type="bool" value="false"/>
+    <!-- Shell shows desktop -->
+    <property name="ShellShowsDesktop" type="bool" value="true"/>
+    <!-- Overlay scrolling -->
+    <property name="OverlayScrolling" type="bool" value="true"/>
+    <!-- Primary button warps slider -->
+    <property name="PrimaryButtonWarpsSlider" type="bool" value="true"/>
+    <!-- Enable animations -->
+    <property name="EnableAnimations" type="bool" value="true"/>
+    <!-- Font antialiasing: 0=none, 1=grayscale, 2=rgba -->
+    <property name="FontAntialias" type="int" value="1"/>
+    <!-- Font hinting: 0=none, 1=slight, 2=medium, 3=full -->
+    <property name="FontHinting" type="int" value="1"/>
+    <!-- Font RGBA order: rgba, bgra, vrgb, vbgr -->
+    <property name="FontRGBA" type="string" value="rgb"/>
+    <!-- Recent files max age (days) -->
+    <property name="RecentFilesMaxAge" type="int" value="30"/>
+    <!-- Dialogs use header -->
+    <property name="DialogsUseHeader" type="bool" value="true"/>
+    <!-- Decoration layout -->
+    <property name="DecorationLayout" type="string" value="menu:minimize,maximize,close"/>
+  </property>
+
+  <!-- Net theme name for legacy GTK2 -->
+  <property name="Gdk" type="empty">
+    <property name="WindowScalingFactor" type="int" value="1"/>
+  </property>
+</channel>

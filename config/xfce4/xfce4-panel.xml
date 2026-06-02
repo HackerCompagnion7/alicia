@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE channel [
+  <!ENTITY panel.top.position  "0">
+  <!ENTITY panel.bottom.position "1">
+]>
+<channel name="xfce4-panel" version="1.0">
+  <!-- ============================================================
+       Alicia Desktop Environment - XFCE4 Panel Configuration
+       Proyecto Tomorrow - Enterprise Linux Desktop for Android
+       ============================================================ -->
+
+  <property name="panels" type="uint" value="2">
+    <!-- ========== TOP PANEL (Taskbar) ========== -->
+    <property name="panel-&panel.top.position;" type="empty">
+      <property name="position" type="string" value="p=6;x=0;y=0"/>
+      <property name="length" type="uint" value="100"/>
+      <property name="position-locked" type="bool" value="true"/>
+      <property name="size" type="uint" value="30"/>
+      <property name="autohide-behavior" type="uint" value="0"/>
+      <property name="autohide-size" type="uint" value="2"/>
+      <property name="span-monitors" type="bool" value="false"/>
+      <property name="output-name" type="string" value=""/>
+      <property name="nrows" type="uint" value="1"/>
+      <property name="screen-id" type="uint" value="0"/>
+      <property name="background-style" type="uint" value="0"/>
+      <property name="background-rgba" type="double">
+        <property name="red"   type="double" value="0.055"/>
+        <property name="green" type="double" value="0.055"/>
+        <property name="blue"  type="double" value="0.055"/>
+        <property name="alpha" type="double" value="0.92"/>
+      </property>
+      <property name="enter-opacity" type="uint" value="100"/>
+      <property name="leave-opacity" type="uint" value="90"/>
+      <property name="plugin-ids" type="array">
+        <value type="int" value="1"/>
+        <value type="int" value="2"/>
+        <value type="int" value="3"/>
+        <value type="int" value="4"/>
+        <value type="int" value="5"/>
+        <value type="int" value="6"/>
+        <value type="int" value="7"/>
+        <value type="int" value="8"/>
+        <value type="int" value="9"/>
+      </property>
+    </property>
+
+    <!-- ========== BOTTOM PANEL (Dock) ========== -->
+    <property name="panel-&panel.bottom.position;" type="empty">
+      <property name="position" type="string" value="p=10;x=0;y=0"/>
+      <property name="length" type="uint" value="100"/>
+      <property name="position-locked" type="bool" value="true"/>
+      <property name="size" type="uint" value="48"/>
+      <property name="autohide-behavior" type="uint" value="2"/>
+      <property name="autohide-size" type="uint" value="4"/>
+      <property name="span-monitors" type="bool" value="false"/>
+      <property name="output-name" type="string" value=""/>
+      <property name="nrows" type="uint" value="1"/>
+      <property name="screen-id" type="uint" value="0"/>
+      <property name="background-style" type="uint" value="0"/>
+      <property name="background-rgba" type="double">
+        <property name="red"   type="double" value="0.055"/>
+        <property name="green" type="double" value="0.055"/>
+        <property name="blue"  type="double" value="0.055"/>
+        <property name="alpha" type="double" value="0.92"/>
+      </property>
+      <property name="enter-opacity" type="uint" value="100"/>
+      <property name="leave-opacity" type="uint" value="85"/>
+      <property name="plugin-ids" type="array">
+        <value type="int" value="10"/>
+        <value type="int" value="11"/>
+        <value type="int" value="12"/>
+        <value type="int" value="13"/>
+        <value type="int" value="14"/>
+        <value type="int" value="15"/>
+        <value type="int" value="16"/>
+      </property>
+    </property>
+  </property>
+
+  <!-- ========== PLUGIN DEFINITIONS ========== -->
+  <property name="plugins" type="empty">
+    <!-- TOP PANEL PLUGINS -->
+    <!-- 1: Whisker Menu (Applications Menu) -->
+    <property name="plugin-1" type="string" value="whiskermenu">
+      <property name="button-icon" type="string" value="alicia-logo"/>
+      <property name="button-title" type="string" value="Applications"/>
+      <property name="button-single-row" type="bool" value="false"/>
+      <property name="show-button-title" type="bool" value="false"/>
+      <property name="show-generic-names" type="bool" value="false"/>
+      <property name="show-menu-path" type="bool" value="false"/>
+      <property name="show-tooltips" type="bool" value="true"/>
+      <property name="category-icon-size" type="uint" value="1"/>
+      <property name="menu-icon-size" type="uint" value="2"/>
+      <property name="icon-size" type="uint" value="0"/>
+      <property name="hover-timeout" type="uint" value="100"/>
+      <property name="search-timeout" type="uint" value="250"/>
+      <property name="recent" type="uint" value="10"/>
+      <property name="display-recent-default" type="bool" value="false"/>
+      <property name="position-search-default" type="bool" value="true"/>
+      <property name="position-categories-horizontal" type="bool" value="false"/>
+      <property name="position-profiles-horizontal" type="bool" value="false"/>
+      <property name="command-switchuser" type="string" value="dm-tool switch-to-greeter"/>
+      <property name="command-menueditor" type="string" value="menulibre"/>
+    </property>
+
+    <!-- 2: Separator -->
+    <property name="plugin-2" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+    </property>
+
+    <!-- 3: Launcher - File Manager -->
+    <property name="plugin-3" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="thunar-file-manager.desktop"/>
+      </property>
+    </property>
+
+    <!-- 4: Launcher - Terminal -->
+    <property name="plugin-4" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="xfce4-terminal-emulator.desktop"/>
+      </property>
+    </property>
+
+    <!-- 5: Separator -->
+    <property name="plugin-5" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+      <property name="expand" type="bool" value="false"/>
+    </property>
+
+    <!-- 6: Tasklist (Window Buttons) -->
+    <property name="plugin-6" type="string" value="tasklist">
+      <property name="flat-buttons" type="bool" value="true"/>
+      <property name="switch-workspace-on-unminimize" type="bool" value="true"/>
+      <property name="show-labels" type="bool" value="true"/>
+      <property name="show-only-minimized" type="bool" value="false"/>
+      <property name="show-pager" type="bool" value="false"/>
+      <property name="show-wireframes" type="bool" value="false"/>
+      <property name="window-scrolling" type="bool" value="true"/>
+      <property name="grouping" type="uint" value="1"/>
+      <property name="include-all-workspaces" type="bool" value="true"/>
+      <property name="include-all-monitors" type="bool" value="true"/>
+      <property name="sort-order" type="uint" value="4"/>
+      <property name="middle-click" type="uint" value="0"/>
+    </property>
+
+    <!-- 7: Separator (expandable spacer to right-align) -->
+    <property name="plugin-7" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+      <property name="expand" type="bool" value="true"/>
+    </property>
+
+    <!-- 8: Notification Area (Systray) -->
+    <property name="plugin-8" type="string" value="systray">
+      <property name="show-frame" type="bool" value="false"/>
+      <property name="size-max" type="uint" value="22"/>
+      <property name="names-visible" type="array">
+        <value type="string" value="xfce4-power-manager"/>
+        <value type="string" value="networkmanager"/>
+        <value type="string" value="pulseaudio"/>
+        <value type="string" value="ibus-panel"/>
+        <value type="string" value="bluetooth"/>
+      </property>
+      <property name="names-hidden" type="array">
+        <value type="string" value="thunar"/>
+      </property>
+    </property>
+
+    <!-- 9: Clock -->
+    <property name="plugin-9" type="string" value="clock">
+      <property name="mode" type="uint" value="2"/>
+      <property name="tooltip-format" type="string" value="%A, %B %e, %Y"/>
+      <property name="command" type="string" value=""/>
+      <property name="show-meridiem" type="bool" value="false"/>
+      <property name="flash-separators" type="bool" value="false"/>
+      <property name="show-frame" type="bool" value="false"/>
+      <property name="digital-format" type="string" value="%H:%M"/>
+      <property name="layout" type="uint" value="0"/>
+    </property>
+
+    <!-- BOTTOM PANEL PLUGINS -->
+    <!-- 10: Show Desktop Button -->
+    <property name="plugin-10" type="string" value="showdesktop">
+      <property name="show-tooltips" type="bool" value="true"/>
+    </property>
+
+    <!-- 11: Separator -->
+    <property name="plugin-11" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+    </property>
+
+    <!-- 12: Launcher - File Manager -->
+    <property name="plugin-12" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="thunar.desktop"/>
+      </property>
+    </property>
+
+    <!-- 13: Launcher - Terminal -->
+    <property name="plugin-13" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="xfce4-terminal.desktop"/>
+      </property>
+    </property>
+
+    <!-- 14: Launcher - Text Editor -->
+    <property name="plugin-14" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="mousepad.desktop"/>
+      </property>
+    </property>
+
+    <!-- 15: Launcher - Web Browser -->
+    <property name="plugin-15" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="firefox-esr.desktop"/>
+      </property>
+    </property>
+
+    <!-- 16: Workspace Switcher (Pager) -->
+    <property name="plugin-16" type="string" value="pager">
+      <property name="rows" type="uint" value="1"/>
+      <property name="miniature-view" type="bool" value="true"/>
+      <property name="numbering" type="bool" value="false"/>
+      <property name="workspace-scrolling" type="bool" value="true"/>
+      <property name="wrap-workspaces" type="bool" value="true"/>
+    </property>
+  </property>
+</channel>

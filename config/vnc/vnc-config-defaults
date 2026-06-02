@@ -1,0 +1,109 @@
+# ==============================================================================
+# Alicia Desktop Environment - VNC Default Configuration
+# Proyecto Tomorrow - Enterprise Linux Desktop for Android
+# ==============================================================================
+# This file provides default VNC server settings for the Alicia desktop.
+# Values can be overridden via alicia-defaults.conf or command-line flags.
+# ==============================================================================
+
+# ---- Display Geometry ----
+# Default resolution optimized for typical Android device screens.
+# Common values: 1280x720, 1920x1080, 1024x768
+VNC_GEOMETRY="1280x720"
+
+# ---- Color Depth ----
+# 8  = 8-bit (256 colors, low bandwidth)
+# 16 = 16-bit (high color, good balance)
+# 24 = 24-bit (true color, best quality)
+# 32 = 32-bit (true color with alpha)
+VNC_DEPTH="24"
+
+# ---- Pixel Format ----
+# Pixel format string for the VNC framebuffer.
+# Format: BPP-DEPTH-RED-GREEN-BLUE
+VNC_PIXEL_FORMAT="32-24-8-8-8"
+
+# ---- Security Types ----
+# Comma-separated list of preferred security types.
+# Options: None, VncAuth, Plain, TLSNone, TLSVnc, X509None, X509Vnc
+# For Android/Termux environments, VncAuth is the recommended minimum.
+VNC_SECURITY_TYPES="VncAuth"
+
+# ---- VNC Password ----
+# Default password for VNC authentication.
+# IMPORTANT: Change this in production deployments!
+VNC_DEFAULT_PASSWORD="alicia"
+
+# ---- Password File ----
+# Path to the VNC password file (created by vncpasswd).
+VNC_PASSWORD_FILE="${HOME}/.vnc/passwd"
+
+# ---- Encoding Preferences ----
+# Comma-separated list of preferred encodings in priority order.
+# Tight: best for slow connections, compresses well
+# ZRLE: good for modern connections
+# Hextile: fallback for older clients
+# Raw: no compression, high bandwidth
+VNC_ENCODINGS="Tight,ZRLE,Hextile,Raw"
+
+# ---- Compression Level ----
+# 0 = no compression, 9 = maximum compression.
+# Higher levels use more CPU; lower levels use more bandwidth.
+# Recommended: 6 for most Android devices.
+VNC_COMPRESSION_LEVEL="6"
+
+# ---- JPEG Quality ----
+# JPEG quality for Tight encoding (0-9).
+# 0 = highest quality (least compression), 9 = lowest quality.
+# Only applies when Tight encoding with JPEG is active.
+VNC_JPEG_QUALITY="5"
+
+# ---- Preferred Encoding Subtype ----
+# For Tight encoding, prefer lossy JPEG or lossless.
+# Options: Tight, TightJPEG
+VNC_PREFERRED_ENCODING="Tight"
+
+# ---- Desktop Name ----
+# Name shown in the VNC viewer title bar.
+VNC_DESKTOP_NAME="Alicia Desktop"
+
+# ---- VNC Server Binary ----
+# The VNC server executable to use.
+# Supported: tigervnc, tightvnc, x11vnc
+VNC_SERVER="tigervnc"
+
+# ---- Display Number ----
+# X11 display number. :1 = display 1, :2 = display 2, etc.
+# Set to "auto" to let the server choose the next available display.
+VNC_DISPLAY=":1"
+
+# ---- Websocket Port Offset ----
+# For noVNC / web-based VNC access.
+# Actual port = 5900 + display_number + offset.
+VNC_WEBSOCK_OFFSET="0"
+
+# ---- Idle Timeout ----
+# Seconds of inactivity before the VNC connection is dropped.
+# 0 = no timeout (connection stays alive indefinitely).
+VNC_IDLE_TIMEOUT="0"
+
+# ---- Frame Rate ----
+# Maximum frame updates per second sent to clients.
+# Lower values reduce CPU usage on the Android device.
+# Recommended range: 15-30 for Termux environments.
+VNC_FRAME_RATE="24"
+
+# ---- localhost Only ----
+# If true, only accept connections from localhost (127.0.0.1).
+# For security, this should be true when using SSH tunneling.
+# Set to false for direct LAN connections.
+VNC_LOCALHOST_ONLY="true"
+
+# ---- Log Level ----
+# VNC server log verbosity.
+# Options: debug, info, warning, error, none
+VNC_LOG_LEVEL="info"
+
+# ---- Clean Shutdown ----
+# Number of seconds to wait for a clean VNC shutdown before killing.
+VNC_SHUTDOWN_TIMEOUT="10"

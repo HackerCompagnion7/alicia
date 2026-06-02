@@ -1,0 +1,231 @@
+/* ==============================================================================
+ * Alicia Desktop Environment - Custom GTK CSS Theme
+ * Proyecto Tomorrow - Enterprise Linux Desktop for Android
+ *
+ * Accent color: #2e6da4 (Alicia Blue)
+ * ============================================================================== */
+
+/* ---- Color Variables (via GTK 3.20+ define-color) ---- */
+@define-color alicia_accent       #2e6da4;
+@define-color alicia_accent_dark  #1e4d74;
+@define-color alicia_accent_light #4a90d9;
+@define-color alicia_bg           #f5f5f5;
+@define-color alicia_bg_dark      #2d2d2d;
+@define-color alicia_fg           #333333;
+@define-color alicia_fg_light     #ffffff;
+@define-color alicia_border       #b0b0b0;
+@define-color alicia_border_dark  #404040;
+@define-color alicia_success      #4caf50;
+@define-color alicia_warning      #ff9800;
+@define-color alicia_error        #e53935;
+@define-color alicia_panel_bg     #1a1a2e;
+
+/* ---- Header Bar Styling ---- */
+.header-bar,
+.titlebar {
+    background: linear-gradient(to bottom, @alicia_accent, @alicia_accent_dark);
+    color: @alicia_fg_light;
+    border-bottom: 1px solid @alicia_accent_dark;
+    padding: 4px 10px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.header-bar:backdrop,
+.titlebar:backdrop {
+    background: linear-gradient(to bottom, #555555, #444444);
+    text-shadow: none;
+}
+
+.header-bar .button,
+.titlebar .button {
+    color: @alicia_fg_light;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+.header-bar .button:hover,
+.titlebar .button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.header-bar .button:active,
+.titlebar .button:active {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ---- Button Styling ---- */
+.button {
+    background: linear-gradient(to bottom, #fafafa, #e8e8e8);
+    border: 1px solid @alicia_border;
+    border-radius: 4px;
+    padding: 5px 12px;
+    color: @alicia_fg;
+    transition: all 150ms ease;
+}
+
+.button:hover {
+    background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+    border-color: @alicia_accent;
+    color: @alicia_accent;
+}
+
+.button:active,
+.button:checked {
+    background: linear-gradient(to bottom, @alicia_accent, @alicia_accent_dark);
+    border-color: @alicia_accent_dark;
+    color: @alicia_fg_light;
+}
+
+.button.suggested-action {
+    background: linear-gradient(to bottom, @alicia_accent_light, @alicia_accent);
+    border-color: @alicia_accent_dark;
+    color: @alicia_fg_light;
+}
+
+.button.destructive-action {
+    background: linear-gradient(to bottom, #ef5350, @alicia_error);
+    border-color: #c62828;
+    color: @alicia_fg_light;
+}
+
+/* ---- Sidebar Styling ---- */
+.sidebar,
+.sidebar-item,
+.sidebar .view {
+    background-color: #f0f0f4;
+    color: @alicia_fg;
+    border-right: 1px solid @alicia_border;
+}
+
+.sidebar-item:hover {
+    background-color: @alicia_accent;
+    color: @alicia_fg_light;
+}
+
+.sidebar-item:selected,
+.sidebar-item:active {
+    background-color: @alicia_accent_dark;
+    color: @alicia_fg_light;
+}
+
+/* ---- Desktop Styling ---- */
+.desktop-window,
+DesktopWindow {
+    background-color: #1a1a2e;
+}
+
+desktop-window .icon-label {
+    color: @alicia_fg_light;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* ---- Custom Scrollbars ---- */
+.scrollbar {
+    background-color: transparent;
+}
+
+.scrollbar .slider {
+    background-color: rgba(46, 109, 164, 0.4);
+    border-radius: 4px;
+    min-width: 6px;
+    min-height: 6px;
+}
+
+.scrollbar .slider:hover {
+    background-color: rgba(46, 109, 164, 0.7);
+}
+
+.scrollbar .slider:active {
+    background-color: @alicia_accent;
+}
+
+.scrollbar .trough {
+    background-color: transparent;
+}
+
+/* ---- Panel Styling ---- */
+.xfce4-panel,
+.xfce4-panel .panel {
+    background-color: @alicia_panel_bg;
+    color: @alicia_fg_light;
+    border: none;
+}
+
+.xfce4-panel .button {
+    background: transparent;
+    color: @alicia_fg_light;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 6px;
+}
+
+.xfce4-panel .button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.xfce4-panel .button:active,
+.xfce4-panel .button:checked {
+    background: rgba(46, 109, 164, 0.5);
+}
+
+.xfce4-panel .tasklist .button {
+    background: transparent;
+    color: @alicia_fg_light;
+    border-radius: 3px;
+    padding: 2px 4px;
+}
+
+.xfce4-panel .tasklist .button:active,
+.xfce4-panel .tasklist .button:checked {
+    background: rgba(46, 109, 164, 0.4);
+}
+
+.xfce4-panel .clock {
+    color: @alicia_fg_light;
+    font-weight: bold;
+}
+
+/* ---- Selection & Focus ---- */
+.selection,
+*:selected {
+    background-color: @alicia_accent;
+    color: @alicia_fg_light;
+}
+
+*:selected:backdrop {
+    background-color: @alicia_accent_dark;
+}
+
+/* ---- Entry Fields ---- */
+.entry {
+    border: 1px solid @alicia_border;
+    border-radius: 4px;
+    padding: 5px 8px;
+    background: #ffffff;
+    color: @alicia_fg;
+}
+
+.entry:focus {
+    border-color: @alicia_accent;
+    box-shadow: inset 0 0 0 1px @alicia_accent;
+}
+
+/* ---- Tooltip ---- */
+.tooltip {
+    background: @alicia_bg_dark;
+    color: @alicia_fg_light;
+    border-radius: 4px;
+    padding: 4px 8px;
+    border: 1px solid @alicia_border_dark;
+}
+
+/* ---- Notification ---- */
+.notification {
+    background: @alicia_bg_dark;
+    color: @alicia_fg_light;
+    border-radius: 6px;
+    border: 1px solid @alicia_border_dark;
+    padding: 8px 12px;
+}

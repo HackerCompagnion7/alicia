@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<channel name="xfwm4" version="1.0">
+  <!-- ============================================================
+       Alicia Desktop Environment - Window Manager Configuration
+       Proyecto Tomorrow - Enterprise Linux Desktop for Android
+       ============================================================ -->
+
+  <!-- Theme Configuration -->
+  <property name="general" type="empty">
+    <property name="theme" type="string" value="Default"/>
+    <property name="use_compositing" type="bool" value="true"/>
+    <property name="compositing_mode" type="uint" value="0"/>
+    <property name="shadow_delta_x" type="int" value="0"/>
+    <property name="shadow_delta_y" type="int" value="0"/>
+    <property name="shadow_opacity" type="int" value="50"/>
+    <property name="shadow_px_top" type="int" value="3"/>
+    <property name="shadow_px_right" type="int" value="3"/>
+    <property name="shadow_px_bottom" type="int" value="6"/>
+    <property name="shadow_px_left" type="int" value="3"/>
+
+    <!-- Window Focus Model -->
+    <property name="click_to_focus" type="bool" value="true"/>
+    <property name="focus_hint" type="bool" value="true"/>
+    <property name="focus_new" type="bool" value="true"/>
+    <property name="raise_on_click" type="bool" value="true"/>
+    <property name="raise_on_focus" type="bool" value="false"/>
+    <property name="prevent_focus_stealing" type="bool" value="true"/>
+    <property name="activate_action" type="string" value="switch"/>
+    <property name="snap_to_top" type="bool" value="true"/>
+
+    <!-- Snap to Edge / Window Placement -->
+    <property name="snap_to_border" type="bool" value="true"/>
+    <property name="snap_to_windows" type="bool" value="true"/>
+    <property name="snap_width" type="int" value="10"/>
+    <property name="border_snap_offset" type="int" value="10"/>
+    <property name="window_snap_offset" type="int" value="10"/>
+    <property name="placement_mode" type="string" value="center"/>
+    <property name="placement_ratio" type="int" value="50"/>
+
+    <!-- Double-Click Action -->
+    <property name="double_click_action" type="string" value="maximize"/>
+
+    <!-- Title Font -->
+    <property name="title_font" type="string" value="Sans Bold 9"/>
+
+    <!-- Window Roll-up / Shade -->
+    <property name="toggle_shade" type="string" value="None"/>
+    <property name="shade_hover" type="bool" value="false"/>
+
+    <!-- Window Movement & Resize -->
+    <property name="box_move" type="bool" value="false"/>
+    <property name="box_resize" type="bool" value="false"/>
+    <property name="resize_opacity" type="int" value="100"/>
+    <property name="move_opacity" type="int" value="100"/>
+    <property name="popup_opacity" type="int" value="100"/>
+
+    <!-- Workspace Settings -->
+    <property name="wrap_workspaces" type="bool" value="true"/>
+    <property name="wrap_cycle" type="bool" value="true"/>
+    <property name="cycle_minimum" type="bool" value="true"/>
+    <property name="cycle_draw_frame" type="bool" value="true"/>
+
+    <!-- Misc -->
+    <property name="borderless_maximize" type="bool" value="true"/>
+    <property name="maximized_offset" type="int" value="0"/>
+    <property name="tile_on_move" type="bool" value="true"/>
+    <property name="easy_click" type="string" value="Alt"/>
+    <property name="use_border" type="bool" value="true"/>
+    <property name="zoom_desktop" type="bool" value="true"/>
+  </property>
+
+  <!-- ========== KEYBOARD SHORTCUTS ========== -->
+  <property name="custom" type="empty">
+    <!-- Window Management -->
+    <property name="&lt;Alt&gt;F4" type="string" value="close_window_key"/>
+    <property name="&lt;Alt&gt;F5" type="string" value="maximize_window_key"/>
+    <property name="&lt;Alt&gt;F6" type="string" value="maximize_horiz_key"/>
+    <property name="&lt;Alt&gt;F7" type="string" value="maximize_vert_key"/>
+    <property name="&lt;Alt&gt;space" type="string" value="popup_menu_key"/>
+    <property name="&lt;Alt&gt;Return" type="string" value="maximize_window_key"/>
+
+    <!-- Workspace Switching -->
+    <property name="&lt;Control&gt;&lt;Alt&gt;Left" type="string" value="left_workspace_key"/>
+    <property name="&lt;Control&gt;&lt;Alt&gt;Right" type="string" value="right_workspace_key"/>
+    <property name="&lt;Control&gt;&lt;Alt&gt;1" type="string" value="workspace_1_key"/>
+    <property name="&lt;Control&gt;&lt;Alt&gt;2" type="string" value="workspace_2_key"/>
+    <property name="&lt;Control&gt;&lt;Alt&gt;3" type="string" value="workspace_3_key"/>
+    <property name="&lt;Control&gt;&lt;Alt&gt;4" type="string" value="workspace_4_key"/>
+
+    <!-- Window Cycling -->
+    <property name="&lt;Alt&gt;Tab" type="string" value="cycle_windows_key"/>
+    <property name="&lt;Alt&gt;&lt;Shift&gt;Tab" type="string" value="cycle_reverse_windows_key"/>
+    <property name="&lt;Super&gt;Tab" type="string" value="cycle_windows_key"/>
+
+    <!-- Window Moving / Resizing -->
+    <property name="&lt;Alt&gt;F8" type="string" value="stick_window_key"/>
+    <property name="&lt;Alt&gt;F9" type="string" value="hide_window_key"/>
+    <property name="&lt;Alt&gt;F10" type="string" value="maximize_window_key"/>
+    <property name="&lt;Alt&gt;F11" type="string" value="fullscreen_key"/>
+    <property name="&lt;Alt&gt;F12" type="string" value="above_key"/>
+
+    <!-- Layer -->
+    <property name="&lt;Alt&gt;Home" type="string" value="raise_window_key"/>
+    <property name="&lt;Alt&gt;End" type="string" value="lower_window_key"/>
+
+    <!-- Move to Workspace -->
+    <property name="&lt;Control&gt;&lt;Shift&gt;&lt;Alt&gt;Left" type="string" value="move_window_left_key"/>
+    <property name="&lt;Control&gt;&lt;Shift&gt;&lt;Alt&gt;Right" type="string" value="move_window_right_key"/>
+  </property>
+
+  <!-- Default shortcuts that are not overridden -->
+  <property name="custom" type="empty">
+    <property name="&lt;Control&gt;F1" type="string" value="workspace_1_key"/>
+    <property name="&lt;Control&gt;F2" type="string" value="workspace_2_key"/>
+  </property>
+</channel>
