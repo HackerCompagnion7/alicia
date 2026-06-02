@@ -43,16 +43,79 @@ ALICIA_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 for lib_file in "${LIB_DIR}"/alicia-*.sh; do
     if [[ -f "${lib_file}" ]]; then
         # shellcheck source=/dev/null
-        source "${lib_file}" 2>/dev/null || {
-            echo "ERROR: Failed to source library: ${lib_file}" >&2
-            exit 1
-        }
+        if ! source "${lib_file}" 2>&1; then
+            echo "[WARN] Failed to source library: ${lib_file} (continuing with fallbacks)" >&2
+        fi
     fi
 done
 
+# Provide fallback functions if libraries failed to load
+if ! declare -f log_info &>/dev/null; then
+    # Minimal fallback logging
+    readonly COLOR_RESET='\033[0m' COLOR_RED='\033[0;31m' COLOR_GREEN='\033[0;32m'
+    readonly COLOR_YELLOW='\033[0;33m' COLOR_CYAN='\033[0;36m' COLOR_BOLD='\033[1m'
+    readonly COLOR_BOLD_CYAN='\033[1;36m' COLOR_BOLD_WHITE='\033[1;37m'
+    readonly COLOR_BOLD_GREEN='\033[1;32m' COLOR_DIM='\033[2m'
+    readonly COLOR_BOLD_BLUE='\033[1;34m'
+    log_debug()   { :; }
+    log_info()    { printf "${COLOR_GREEN}[INFO]${COLOR_RESET}  %s\n" "$*"; }
+    log_warn()    { printf "${COLOR_YELLOW}[WARN]${COLOR_RESET}  %s\n" "$*" >&2; }
+    log_error()   { printf "${COLOR_RED}[ERROR]${COLOR_RESET} %s\n" "$*" >&2; }
+    log_section() { printf "\n${COLOR_BOLD_BLUE}======== %s ========${COLOR_RESET}\n" "$1"; }
+    log_separator() { local ch="${1:--}"; local w="${2:-55}"; local l=""; for ((i=0;i<w;i++)); do l+="$ch"; done; printf "%s\n" "$l"; }
+    log_timer_start() { :; }
+    log_timer_end() { :; }
+    log_init() { :; }
+    log_set_module() { :; }
+fi
+
 if ! declare -f alicia_init_directories &>/dev/null; then
-    echo "ERROR: Failed to load alicia core libraries" >&2
-    exit 1
+    # Minimal fallback core
+    ALICIA_VERSION="3.1.0"
+    ALICIA_CODENAME="Tomorrow"
+    ALICIA_HOME="${HOME}/.alicia"
+    ALICIA_LOG_DIR="${ALICIA_HOME}/logs"
+    ALICIA_STATE_DIR="${ALICIA_HOME}/state"
+    ALICIA_CONFIG_DIR="${ALICIA_HOME}/config"
+    ALICIA_DEFAULT_VNC_PORT=5901
+    ALICIA_DEFAULT_VNC_RESOLUTION="1280x720"
+    ALICIA_DEFAULT_DESKTOP_ENV="xfce4"
+    ALICIA_DEFAULT_PROOT_DISTRO="alpine"
+    ALICIA_MIN_RAM_MB=2048
+    ALICIA_MIN_STORAGE_MB=4096
+    ALICIA_GITHUB_REPO="HackerCompagnion7/alicia"
+
+    alicia_init_directories() {
+        mkdir -p "${ALICIA_HOME}" "${ALICIA_LOG_DIR}" "${ALICIA_STATE_DIR}" "${ALICIA_CONFIG_DIR}" 2>/dev/null || true
+    }
+    alicia_set_state() {
+        local key="$1" val="$2"
+        mkdir -p "${ALICIA_STATE_DIR}" 2>/dev/null || true
+        echo "$val" > "${ALICIA_STATE_DIR}/${key}.state" 2>/dev/null || true
+    }
+    alicia_get_state() {
+        cat "${ALICIA_STATE_DIR}/${1}.state" 2>/dev/null || echo ""
+    }
+fi
+
+if ! declare -f network_is_available &>/dev/null; then
+    network_is_available() {
+        ping -c 1 -W 5 8.8.8.8 &>/dev/null || curl -s --connect-timeout 5 -o /dev/null https://www.google.com 2>/dev/null
+    }
+fi
+
+if ! declare -f storage_get_available_space &>/dev/null; then
+    storage_get_available_space() {
+        df -m "${2:-$HOME}" 2>/dev/null | tail -1 | awk '{print $4}' || echo 0
+    }
+fi
+
+if ! declare -f proot_is_installed &>/dev/null; then
+    proot_is_installed() { command -v proot-distro &>/dev/null; }
+fi
+
+if ! declare -f proot_is_distro_installed &>/dev/null; then
+    proot_is_distro_installed() { proot-distro list 2>/dev/null | grep -q "$1"; }
 fi
 
 # ============================================================================

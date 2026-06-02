@@ -16,7 +16,7 @@
 #               launcher creation, and accessibility configuration.
 # ============================================================================
 
-set -euo pipefail
+# set -euo pipefail removed for library sourcing safety
 
 if [[ -n "${_ALICIA_UI_LOADED:-}" ]]; then
     return 0

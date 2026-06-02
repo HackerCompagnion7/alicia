@@ -40,7 +40,7 @@ ALICIA_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 for lib_file in "${LIB_DIR}"/alicia-*.sh; do
     if [[ -f "${lib_file}" ]]; then
         # shellcheck source=/dev/null
-        source "${lib_file}" 2>/dev/null || {
+        source "${lib_file}" 2>&1 || {
             echo "ERROR: Failed to source library: ${lib_file}" >&2
             exit 1
         }

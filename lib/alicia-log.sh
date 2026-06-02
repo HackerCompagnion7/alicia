@@ -24,7 +24,7 @@
 #               performance timing, and log analysis capabilities.
 # ============================================================================
 
-set -euo pipefail
+# set -euo pipefail removed for library sourcing safety
 
 if [[ -n "${_ALICIA_LOG_LOADED:-}" ]]; then
     return 0
@@ -720,8 +720,8 @@ log_cleanup() {
 }
 
 # ============================================================================
-# Initialize logging on source
+# Initialize logging on source (safe - won't fail if dirs don't exist yet)
 # ============================================================================
-if [[ -n "${ALICIA_HOME:-}" ]]; then
+if [[ -n "${ALICIA_HOME:-}" ]] && [[ -d "${ALICIA_LOG_DIR:-}" ]]; then
     log_init "${ALICIA_LOG_DIR}" "${ALICIA_LOG_FILE}" 2>/dev/null || true
 fi

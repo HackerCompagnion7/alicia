@@ -11,7 +11,7 @@
 #               and storage optimization capabilities.
 # ============================================================================
 
-set -euo pipefail
+# set -euo pipefail removed for library sourcing safety
 
 if [[ -n "${_ALICIA_STORAGE_LOADED:-}" ]]; then
     return 0

@@ -11,7 +11,7 @@
 #               network diagnostics, and GitHub API interaction.
 # ============================================================================
 
-set -euo pipefail
+# set -euo pipefail removed for library sourcing safety
 
 if [[ -n "${_ALICIA_NETWORK_LOADED:-}" ]]; then
     return 0

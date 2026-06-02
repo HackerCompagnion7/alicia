@@ -21,17 +21,17 @@
 #               management, user management, and system information gathering.
 # ============================================================================
 
-set -euo pipefail
+# set -euo pipefail removed for library sourcing safety
 
 if [[ -n "${_ALICIA_SYSTEM_LOADED:-}" ]]; then
     return 0
 fi
 _ALICIA_SYSTEM_LOADED=1
 
-# Source dependencies
+# Source dependencies (safe - won't fail if already loaded)
 _ALICIA_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${_ALICIA_LIB_DIR}/alicia-core.sh" 2>/dev/null || true
-source "${_ALICIA_LIB_DIR}/alicia-log.sh" 2>/dev/null || true
+source "${_ALICIA_LIB_DIR}/alicia-core.sh" 2>&1 || true
+source "${_ALICIA_LIB_DIR}/alicia-log.sh" 2>&1 || true
 
 # ============================================================================
 # Default Paths and Constants

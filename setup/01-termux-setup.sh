@@ -40,7 +40,7 @@ readonly SCRIPT_VERSION="3.1.0"
 for lib_file in "${SCRIPT_DIR}/../lib/"alicia-*.sh; do
     if [[ -f "$lib_file" ]]; then
         # shellcheck source=/dev/null
-        source "$lib_file" 2>/dev/null || {
+        source "$lib_file" 2>&1 || {
             echo "[WARN] Failed to source library: $lib_file" >&2
         }
     fi

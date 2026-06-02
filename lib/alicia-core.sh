@@ -26,7 +26,7 @@
 #               template engine, and environment validation.
 # ============================================================================
 
-set -euo pipefail
+# set -euo pipefail removed for library sourcing safety
 
 # ============================================================================
 # Guard against double-sourcing
