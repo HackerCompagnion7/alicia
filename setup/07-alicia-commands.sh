@@ -561,44 +561,44 @@ chmod +x /usr/bin/alicia-repair'
 
     # --- alicia-about ---
     log_info "Creating alicia-about..."
-    proot_exec bash -c "cat > /usr/bin/alicia-about << 'ABOUTEOF'
+    proot_exec bash -c "cat > /usr/bin/alicia-about << ABOUTEOF
 #!/bin/bash
 # alicia-about - Show Alicia Desktop Environment information
 set -euo pipefail
 
-echo '========================================='
-echo '  Alicia Desktop Environment'
-echo '  Version: ${ALICIA_VERSION_NUM}'
-echo '  Codename: Tomorrow'
-echo '========================================='
-echo ''
-echo '  Copyright (C) 2005-2025 Proyecto Tomorrow'
-echo ''
-echo '  A complete Linux desktop for Android,'
-echo '  powered by Termux, proot, and XFCE4.'
-echo ''
-echo '  Licensed under GNU GPL v3.0+'
-echo ''
-echo '  System Information:'
-echo '    Kernel:    '\$(uname -r)
-echo '    Arch:      '\$(uname -m)
-echo '    User:      '\$(whoami)
-echo '    Hostname:  '\$(hostname 2>/dev/null || echo alicia)
-echo '    Uptime:    '\$(uptime -p 2>/dev/null || uptime)
-echo '    Shell:     '\$SHELL
-echo ''
-echo '  VNC Access:'
-echo '    Port:      5901'
-echo '    Password:  alicia'
-echo '    Display:   :1'
-echo ''
-echo '  Quick Commands:'
-echo '    alicia-health    - Check system health'
-echo '    alicia-repair    - Repair common issues'
-echo '    alicia-backup    - Manage backups'
-echo '    alicia-install   - Install packages'
-echo '    alicia-remove    - Remove packages'
-echo '========================================='
+echo \"=========================================\"
+echo \"  Alicia Desktop Environment\"
+echo \"  Version: ${ALICIA_VERSION_NUM}\"
+echo \"  Codename: Tomorrow\"
+echo \"=========================================\"
+echo \"\"
+echo \"  Copyright (C) 2005-2025 Proyecto Tomorrow\"
+echo \"\"
+echo \"  A complete Linux desktop for Android,\"
+echo \"  powered by Termux, proot, and XFCE4.\"
+echo \"\"
+echo \"  Licensed under GNU GPL v3.0+\"
+echo \"\"
+echo \"  System Information:\"
+echo \"    Kernel:    \\\$(uname -r)\"
+echo \"    Arch:      \\\$(uname -m)\"
+echo \"    User:      \\\$(whoami)\"
+echo \"    Hostname:  \\\$(hostname 2>/dev/null || echo alicia)\"
+echo \"    Uptime:    \\\$(uptime -p 2>/dev/null || uptime)\"
+echo \"    Shell:     \\\$SHELL\"
+echo \"\"
+echo \"  VNC Access:\"
+echo \"    Port:      5901\"
+echo \"    Password:  alicia\"
+echo \"    Display:   :1\"
+echo \"\"
+echo \"  Quick Commands:\"
+echo \"    alicia-health    - Check system health\"
+echo \"    alicia-repair    - Repair common issues\"
+echo \"    alicia-backup    - Manage backups\"
+echo \"    alicia-install   - Install packages\"
+echo \"    alicia-remove    - Remove packages\"
+echo \"=========================================\"
 ABOUTEOF
 chmod +x /usr/bin/alicia-about"
 
@@ -735,7 +735,7 @@ case "${1:-}" in
     *)           usage ;;
 esac
 STOREEOF
-chmod +x /usr/share/alicia/tool-store.sh"
+chmod +x /usr/share/alicia/tool-store.sh'
 
     # --- PUNTO 7+8: system-info.sh in /usr/share/alicia (FIXED: local inside function) ---
     log_info "Creating system-info.sh in ${ALICIA_SHARE}..."
@@ -806,7 +806,7 @@ show_system_info() {
 
 show_system_info
 INFOEOF
-chmod +x /usr/share/alicia/system-info.sh"
+chmod +x /usr/share/alicia/system-info.sh'
 
     # --- PUNTO 8: Create WRAPPERS in /usr/bin that call /usr/share/alicia/ scripts ---
     log_info "Creating wrapper: alicia-tool-store..."
@@ -842,11 +842,11 @@ echo "  VNC Address:  ${LOCAL_IP}:5901"
 echo "  Password:     alicia"
 echo "  Display:      :1"
 echo ""
-echo "  noVNC (Browser):"
+echo "  noVNC Browser:"
 echo "  http://${LOCAL_IP}:6080/vnc.html"
 echo ""
 echo "  Connect from Android:"
-echo "  1. Install a VNC Viewer (e.g., RealVNC, TigerVNC)"
+echo "  1. Install a VNC Viewer, e.g., RealVNC or TigerVNC"
 echo "  2. Enter address: ${LOCAL_IP}:5901"
 echo "  3. Enter password: alicia"
 echo "========================================="
@@ -1046,12 +1046,12 @@ configure_termux_aliases() {
 
     # Add aliases to Termux .bashrc (NOT inside proot)
     local bashrc="${HOME}/.bashrc"
-    local marker="# >>> alicia-commands >>>"
+    local marker="# alicia-commands-marker"
 
     if ! grep -q "$marker" "$bashrc" 2>/dev/null; then
         cat >> "$bashrc" << 'TERMUX_ALIASES'
 
-# >>> alicia-commands >>>
+# alicia-commands-marker
 # Alicia Desktop Environment - Termux-side commands
 alias alicia-start='${HOME}/alicia/scripts/start.sh'
 alias alicia-stop='${HOME}/alicia/scripts/stop.sh'
@@ -1062,7 +1062,7 @@ alias alicia-update='${HOME}/alicia/scripts/update.sh'
 alias alicia-backup='${HOME}/alicia/scripts/backup.sh'
 alias alicia-watchdog='${HOME}/alicia/scripts/watchdog.sh'
 alias alicia-install='${HOME}/alicia/scripts/install.sh'
-# <<< alicia-commands <<<
+# alicia-commands-end
 
 # Auto-source after first install
 if [[ -f "${HOME}/.bashrc" ]]; then

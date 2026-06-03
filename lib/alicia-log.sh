@@ -67,7 +67,10 @@ readonly COLOR_BG_YELLOW='\033[43m'
 # ============================================================================
 # Default Log Configuration
 # ============================================================================
-: "${ALICIA_LOG_DIR:="${ALICIA_HOME:-$HOME/alicia}/logs"}"
+# Use ALICIA_LOG_DIR from alicia-core.sh if already set (readonly), otherwise set default
+if [[ -z "${ALICIA_LOG_DIR:-}" ]]; then
+    ALICIA_LOG_DIR="${ALICIA_HOME:-$HOME/alicia}/logs"
+fi
 : "${ALICIA_LOG_FILE:="${ALICIA_LOG_DIR}/alicia.log"}"
 : "${ALICIA_LOG_LEVEL:=$LOG_LEVEL_INFO}"
 : "${ALICIA_LOG_MAX_SIZE:=10485760}"           # 10MB

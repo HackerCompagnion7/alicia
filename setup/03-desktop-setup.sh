@@ -556,7 +556,7 @@ install_printing_support() {
 configure_xfce4_panel() {
     log_section "Configuring XFCE4 Panel Layout"
 
-    if step_completed "configure_panel"); then
+    if step_completed "configure_panel"; then
         log_info "Panel already configured, skipping"
         return 0
     fi
