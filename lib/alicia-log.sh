@@ -108,8 +108,13 @@ log_init() {
         }
     fi
 
-    ALICIA_LOG_DIR="$log_dir"
-    ALICIA_LOG_FILE="$log_file"
+    # Only reassign if not readonly (alicia-core.sh declares these as readonly)
+    if ! readonly -p 2>/dev/null | grep -q 'declare -r ALICIA_LOG_DIR='; then
+        ALICIA_LOG_DIR="$log_dir"
+    fi
+    if ! readonly -p 2>/dev/null | grep -q 'declare -r ALICIA_LOG_FILE='; then
+        ALICIA_LOG_FILE="$log_file"
+    fi
 
     # Initialize log file
     if [[ ! -f "$ALICIA_LOG_FILE" ]]; then
