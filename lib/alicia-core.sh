@@ -37,67 +37,79 @@ fi
 _ALICIA_CORE_LOADED=1
 
 # ============================================================================
+# Safe readonly helper - avoids errors if variable already declared readonly
+# (e.g. by install.sh fallback or a previous partial source)
+# ============================================================================
+_alicia_safe_readonly() {
+    local varname="$1" varval="$2"
+    if [[ -z "${!varname+_}" ]]; then
+        readonly "$varname=$varval"
+    fi
+}
+
+# ============================================================================
 # Version Constants
 # ============================================================================
-readonly ALICIA_VERSION="3.1.0"
-readonly ALICIA_CODENAME="Tomorrow"
-readonly ALICIA_VERSION_MAJOR=3
-readonly ALICIA_VERSION_MINOR=1
-readonly ALICIA_VERSION_PATCH=0
-readonly ALICIA_BUILD_DATE="$(date -u '+%Y-%m-%d %H:%M:%S UTC' 2>/dev/null || echo 'unknown')"
-readonly ALICIA_LICENSE="GPL-3.0-or-later"
-readonly ALICIA_VENDOR="Proyecto Tomorrow"
+_alicia_safe_readonly ALICIA_VERSION "3.1.0"
+_alicia_safe_readonly ALICIA_CODENAME "Tomorrow"
+_alicia_safe_readonly ALICIA_VERSION_MAJOR 3
+_alicia_safe_readonly ALICIA_VERSION_MINOR 1
+_alicia_safe_readonly ALICIA_VERSION_PATCH 0
+_alicia_safe_readonly ALICIA_BUILD_DATE "$(date -u '+%Y-%m-%d %H:%M:%S UTC' 2>/dev/null || echo 'unknown')"
+_alicia_safe_readonly ALICIA_LICENSE "GPL-3.0-or-later"
+_alicia_safe_readonly ALICIA_VENDOR "Proyecto Tomorrow"
 
 # ============================================================================
 # Path Constants
 # ============================================================================
-readonly ALICIA_HOME="${ALICIA_HOME:-$HOME/.alicia}"
-readonly ALICIA_LIB_DIR="${ALICIA_LIB_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
-readonly ALICIA_BIN_DIR="${ALICIA_HOME}/bin"
-readonly ALICIA_CONFIG_DIR="${ALICIA_CONFIG_DIR:-${ALICIA_HOME}/config}"
-readonly ALICIA_DATA_DIR="${ALICIA_DATA_DIR:-${ALICIA_HOME}/data}"
-readonly ALICIA_CACHE_DIR="${ALICIA_CACHE_DIR:-${ALICIA_HOME}/cache}"
-readonly ALICIA_PROOT_DIR="${ALICIA_PROOT_DIR:-${ALICIA_HOME}/proot}"
-readonly ALICIA_ROOTFS_DIR="${ALICIA_ROOTFS_DIR:-${ALICIA_HOME}/rootfs}"
-readonly ALICIA_LOG_DIR="${ALICIA_LOG_DIR:-${ALICIA_HOME}/logs}"
-readonly ALICIA_TMP_DIR="${ALICIA_TMP_DIR:-${ALICIA_HOME}/tmp}"
-readonly ALICIA_LOCK_DIR="${ALICIA_LOCK_DIR:-${ALICIA_HOME}/locks}"
-readonly ALICIA_STATE_DIR="${ALICIA_STATE_DIR:-${ALICIA_HOME}/state}"
-readonly ALICIA_BACKUP_DIR="${ALICIA_BACKUP_DIR:-${ALICIA_HOME}/backups}"
-readonly ALICIA_DOWNLOAD_DIR="${ALICIA_DOWNLOAD_DIR:-${ALICIA_HOME}/downloads}"
-readonly ALICIA_WALLPAPER_DIR="${ALICIA_WALLPAPER_DIR:-${ALICIA_HOME}/wallpapers}"
-readonly ALICIA_THEME_DIR="${ALICIA_THEME_DIR:-${ALICIA_HOME}/themes}"
-readonly ALICIA_ICON_DIR="${ALICIA_ICON_DIR:-${ALICIA_HOME}/icons}"
-readonly ALICIA_FONT_DIR="${ALICIA_FONT_DIR:-${ALICIA_HOME}/fonts}"
-readonly ALICIA_PLUGIN_DIR="${ALICIA_PLUGIN_DIR:-${ALICIA_HOME}/plugins}"
-readonly ALICIA_LOCALE_DIR="${ALICIA_LOCALE_DIR:-${ALICIA_HOME}/locale}"
-readonly ALICIA_CERT_DIR="${ALICIA_CERT_DIR:-${ALICIA_HOME}/certs}"
+_alicia_safe_readonly ALICIA_HOME "${ALICIA_HOME:-$HOME/.alicia}"
+_alicia_safe_readonly ALICIA_LIB_DIR "${ALICIA_LIB_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
+_alicia_safe_readonly ALICIA_BIN_DIR "${ALICIA_HOME}/bin"
+_alicia_safe_readonly ALICIA_CONFIG_DIR "${ALICIA_CONFIG_DIR:-${ALICIA_HOME}/config}"
+_alicia_safe_readonly ALICIA_DATA_DIR "${ALICIA_DATA_DIR:-${ALICIA_HOME}/data}"
+_alicia_safe_readonly ALICIA_CACHE_DIR "${ALICIA_CACHE_DIR:-${ALICIA_HOME}/cache}"
+_alicia_safe_readonly ALICIA_PROOT_DIR "${ALICIA_PROOT_DIR:-${ALICIA_HOME}/proot}"
+_alicia_safe_readonly ALICIA_ROOTFS_DIR "${ALICIA_ROOTFS_DIR:-${ALICIA_HOME}/rootfs}"
+_alicia_safe_readonly ALICIA_LOG_DIR "${ALICIA_LOG_DIR:-${ALICIA_HOME}/logs}"
+_alicia_safe_readonly ALICIA_TMP_DIR "${ALICIA_TMP_DIR:-${ALICIA_HOME}/tmp}"
+_alicia_safe_readonly ALICIA_LOCK_DIR "${ALICIA_LOCK_DIR:-${ALICIA_HOME}/locks}"
+_alicia_safe_readonly ALICIA_STATE_DIR "${ALICIA_STATE_DIR:-${ALICIA_HOME}/state}"
+_alicia_safe_readonly ALICIA_BACKUP_DIR "${ALICIA_BACKUP_DIR:-${ALICIA_HOME}/backups}"
+_alicia_safe_readonly ALICIA_DOWNLOAD_DIR "${ALICIA_DOWNLOAD_DIR:-${ALICIA_HOME}/downloads}"
+_alicia_safe_readonly ALICIA_WALLPAPER_DIR "${ALICIA_WALLPAPER_DIR:-${ALICIA_HOME}/wallpapers}"
+_alicia_safe_readonly ALICIA_THEME_DIR "${ALICIA_THEME_DIR:-${ALICIA_HOME}/themes}"
+_alicia_safe_readonly ALICIA_ICON_DIR "${ALICIA_ICON_DIR:-${ALICIA_HOME}/icons}"
+_alicia_safe_readonly ALICIA_FONT_DIR "${ALICIA_FONT_DIR:-${ALICIA_HOME}/fonts}"
+_alicia_safe_readonly ALICIA_PLUGIN_DIR "${ALICIA_PLUGIN_DIR:-${ALICIA_HOME}/plugins}"
+_alicia_safe_readonly ALICIA_LOCALE_DIR "${ALICIA_LOCALE_DIR:-${ALICIA_HOME}/locale}"
+_alicia_safe_readonly ALICIA_CERT_DIR "${ALICIA_CERT_DIR:-${ALICIA_HOME}/certs}"
 
 # ============================================================================
 # Default Configuration Constants
 # ============================================================================
-readonly ALICIA_DEFAULT_VNC_PORT=5901
-readonly ALICIA_DEFAULT_VNC_RESOLUTION="1280x720"
-readonly ALICIA_DEFAULT_DESKTOP_ENV="xfce4"
-readonly ALICIA_DEFAULT_PROOT_DISTRO="alpine"
-readonly ALICIA_DEFAULT_PROOT_RELEASE="bookworm"
-readonly ALICIA_DEFAULT_PROOT_ARCH="arm64"
-readonly ALICIA_DEFAULT_DISPLAY=":1"
-readonly ALICIA_DEFAULT_SHELL="/bin/bash"
-readonly ALICIA_DEFAULT_USER="alicia"
-readonly ALICIA_DEFAULT_LANG="en_US.UTF-8"
-readonly ALICIA_DEFAULT_TIMEZONE="UTC"
-readonly ALICIA_DEFAULT_KEYBOARD="us"
-readonly ALICIA_MIN_RAM_MB=2048
-readonly ALICIA_MIN_STORAGE_MB=4096
-readonly ALICIA_MAX_LOG_SIZE=$((10 * 1024 * 1024))  # 10 MB
-readonly ALICIA_MAX_LOG_FILES=5
-readonly ALICIA_LOCK_TIMEOUT=300  # 5 minutes
-readonly ALICIA_DOWNLOAD_RETRIES=3
-readonly ALICIA_DOWNLOAD_TIMEOUT=300  # 5 minutes
-readonly ALICIA_CONNECTIVITY_TEST_URL="https://www.google.com"
-readonly ALICIA_GITHUB_API="https://api.github.com"
-readonly ALICIA_GITHUB_REPO="proyecto-tomorrow/alicia"
+_alicia_safe_readonly ALICIA_DEFAULT_VNC_PORT 5901
+_alicia_safe_readonly ALICIA_DEFAULT_VNC_RESOLUTION "1280x720"
+_alicia_safe_readonly ALICIA_DEFAULT_DESKTOP_ENV "xfce4"
+_alicia_safe_readonly ALICIA_DEFAULT_PROOT_DISTRO "alpine"
+_alicia_safe_readonly ALICIA_DEFAULT_PROOT_RELEASE "bookworm"
+_alicia_safe_readonly ALICIA_DEFAULT_PROOT_ARCH "arm64"
+_alicia_safe_readonly ALICIA_DEFAULT_DISPLAY ":1"
+_alicia_safe_readonly ALICIA_DEFAULT_SHELL "/bin/bash"
+_alicia_safe_readonly ALICIA_DEFAULT_USER "alicia"
+_alicia_safe_readonly ALICIA_DEFAULT_LANG "en_US.UTF-8"
+_alicia_safe_readonly ALICIA_DEFAULT_TIMEZONE "UTC"
+_alicia_safe_readonly ALICIA_DEFAULT_KEYBOARD "us"
+_alicia_safe_readonly ALICIA_MIN_RAM_MB 2048
+_alicia_safe_readonly ALICIA_MIN_STORAGE_MB 4096
+_alicia_safe_readonly ALICIA_MAX_LOG_SIZE $((10 * 1024 * 1024))  # 10 MB
+_alicia_safe_readonly ALICIA_MAX_LOG_FILES 5
+_alicia_safe_readonly ALICIA_LOCK_TIMEOUT 300  # 5 minutes
+_alicia_safe_readonly ALICIA_DOWNLOAD_RETRIES 3
+_alicia_safe_readonly ALICIA_DOWNLOAD_TIMEOUT 300  # 5 minutes
+_alicia_safe_readonly ALICIA_CONNECTIVITY_TEST_URL "https://www.google.com"
+_alicia_safe_readonly ALICIA_GITHUB_API "https://api.github.com"
+_alicia_safe_readonly ALICIA_GITHUB_REPO "proyecto-tomorrow/alicia"
+unset -f _alicia_safe_readonly
 
 # ============================================================================
 # Internal State Variables

@@ -25,7 +25,7 @@
 #               configures Termux properties, and validates compatibility.
 # ============================================================================
 
-set -euo pipefail
+set -uo pipefail
 
 # ============================================================================
 # Script Identity
@@ -40,7 +40,7 @@ readonly SCRIPT_VERSION="3.1.0"
 for lib_file in "${SCRIPT_DIR}/../lib/"alicia-*.sh; do
     if [[ -f "$lib_file" ]]; then
         # shellcheck source=/dev/null
-        source "$lib_file" 2>&1 || {
+        source "$lib_file" 2>/dev/null || {
             echo "[WARN] Failed to source library: $lib_file" >&2
         }
     fi
@@ -159,6 +159,48 @@ load_state() {
         done < "$_SETUP_STATE_FILE"
         log_info "Loaded previous setup state: ${#_COMPLETED_STEPS[@]} steps already completed"
     fi
+}
+
+# ============================================================================
+# Safe Package Install with Retry
+# ============================================================================
+
+# safe_pkg_install - Install a Termux package with retry logic
+# Arguments: $1 - package name, $2 - max retries (default: 3)
+# Returns: 0 on success, 1 on failure after all retries.
+safe_pkg_install() {
+    local package="$1"
+    local max_retries="${2:-3}"
+    local attempt=0
+
+    # Check if already installed
+    if pkg list-installed 2>/dev/null | grep -q "^${package}/"; then
+        log_debug "Package already installed: $package"
+        return 0
+    fi
+
+    while [[ $attempt -lt $max_retries ]]; do
+        attempt=$((attempt + 1))
+        log_info "Installing: $package (attempt $attempt/$max_retries)"
+
+        if pkg install -y "$package" 2>&1 | while IFS= read -r line; do
+            log_debug "  pkg: $line"
+        done; then
+            # Verify installation
+            if pkg list-installed 2>/dev/null | grep -q "^${package}/"; then
+                log_info "Successfully installed: $package"
+                return 0
+            fi
+        fi
+
+        if [[ $attempt -lt $max_retries ]]; then
+            log_warn "Retrying $package in 5 seconds... (attempt $attempt/$max_retries failed)"
+            sleep 5
+        fi
+    done
+
+    log_error "Failed to install $package after $max_retries attempts"
+    return 1
 }
 
 # ============================================================================
@@ -319,16 +361,7 @@ install_essential_packages() {
         ((current++)) || true
         log_progress "$current" "$total" "Installing essential packages"
 
-        # Check if already installed
-        if pkg list-installed 2>/dev/null | grep -q "^${package}/"; then
-            log_debug "Package already installed: $package"
-            continue
-        fi
-
-        log_info "Installing: $package"
-        if ! pkg install -y "$package" 2>&1 | while IFS= read -r line; do
-            log_debug "  pkg: $line"
-        done; then
+        if ! safe_pkg_install "$package" 3; then
             log_warn "Failed to install: $package (will attempt to continue)"
             ((failed++)) || true
         fi
@@ -352,15 +385,7 @@ install_essential_packages() {
         ((rec_current++)) || true
         log_progress "$rec_current" "$rec_total" "Installing recommended packages"
 
-        if pkg list-installed 2>/dev/null | grep -q "^${package}/"; then
-            log_debug "Package already installed: $package"
-            continue
-        fi
-
-        log_info "Installing recommended: $package"
-        if ! pkg install -y "$package" 2>&1 | while IFS= read -r line; do
-            log_debug "  pkg: $line"
-        done; then
+        if ! safe_pkg_install "$package" 2; then
             log_debug "Failed to install recommended package: $package (non-fatal)"
             ((rec_failed++)) || true
         fi
@@ -640,7 +665,7 @@ create_alicia_cli() {
 # Version: 3.1.0
 # ============================================================================
 
-set -euo pipefail
+set -uo pipefail
 
 ALICIA_HOME="${ALICIA_HOME:-$HOME/alicia}"
 ALICIA_VERSION="${ALICIA_VERSION:-3.1.0}"

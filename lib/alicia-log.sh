@@ -34,35 +34,44 @@ _ALICIA_LOG_LOADED=1
 # ============================================================================
 # Log Level Constants
 # ============================================================================
-readonly LOG_LEVEL_DEBUG=0
-readonly LOG_LEVEL_INFO=1
-readonly LOG_LEVEL_WARN=2
-readonly LOG_LEVEL_ERROR=3
-readonly LOG_LEVEL_CRITICAL=4
-readonly LOG_LEVEL_SILENT=5
+# Use _safe_readonly to avoid errors if already declared (e.g. by fallback)
+_safe_readonly() {
+    local varname="$1" varval="$2"
+    # Only declare readonly if not already set
+    if [[ -z "${!varname+_}" ]]; then
+        readonly "$varname=$varval"
+    fi
+}
+_safe_readonly LOG_LEVEL_DEBUG 0
+_safe_readonly LOG_LEVEL_INFO 1
+_safe_readonly LOG_LEVEL_WARN 2
+_safe_readonly LOG_LEVEL_ERROR 3
+_safe_readonly LOG_LEVEL_CRITICAL 4
+_safe_readonly LOG_LEVEL_SILENT 5
 
 # ============================================================================
 # Color Constants for Console Output
 # ============================================================================
-readonly COLOR_RESET='\033[0m'
-readonly COLOR_BOLD='\033[1m'
-readonly COLOR_DIM='\033[2m'
-readonly COLOR_UNDERLINE='\033[4m'
-readonly COLOR_RED='\033[0;31m'
-readonly COLOR_GREEN='\033[0;32m'
-readonly COLOR_YELLOW='\033[0;33m'
-readonly COLOR_BLUE='\033[0;34m'
-readonly COLOR_MAGENTA='\033[0;35m'
-readonly COLOR_CYAN='\033[0;36m'
-readonly COLOR_WHITE='\033[0;37m'
-readonly COLOR_BOLD_RED='\033[1;31m'
-readonly COLOR_BOLD_GREEN='\033[1;32m'
-readonly COLOR_BOLD_YELLOW='\033[1;33m'
-readonly COLOR_BOLD_BLUE='\033[1;34m'
-readonly COLOR_BOLD_MAGENTA='\033[1;35m'
-readonly COLOR_BOLD_CYAN='\033[1;36m'
-readonly COLOR_BG_RED='\033[41m'
-readonly COLOR_BG_YELLOW='\033[43m'
+_safe_readonly COLOR_RESET '\033[0m'
+_safe_readonly COLOR_BOLD '\033[1m'
+_safe_readonly COLOR_DIM '\033[2m'
+_safe_readonly COLOR_UNDERLINE '\033[4m'
+_safe_readonly COLOR_RED '\033[0;31m'
+_safe_readonly COLOR_GREEN '\033[0;32m'
+_safe_readonly COLOR_YELLOW '\033[0;33m'
+_safe_readonly COLOR_BLUE '\033[0;34m'
+_safe_readonly COLOR_MAGENTA '\033[0;35m'
+_safe_readonly COLOR_CYAN '\033[0;36m'
+_safe_readonly COLOR_WHITE '\033[0;37m'
+_safe_readonly COLOR_BOLD_RED '\033[1;31m'
+_safe_readonly COLOR_BOLD_GREEN '\033[1;32m'
+_safe_readonly COLOR_BOLD_YELLOW '\033[1;33m'
+_safe_readonly COLOR_BOLD_BLUE '\033[1;34m'
+_safe_readonly COLOR_BOLD_MAGENTA '\033[1;35m'
+_safe_readonly COLOR_BOLD_CYAN '\033[1;36m'
+_safe_readonly COLOR_BG_RED '\033[41m'
+_safe_readonly COLOR_BG_YELLOW '\033[43m'
+unset -f _safe_readonly
 
 # ============================================================================
 # Default Log Configuration
@@ -72,7 +81,7 @@ if [[ -z "${ALICIA_LOG_DIR:-}" ]]; then
     ALICIA_LOG_DIR="${ALICIA_HOME:-$HOME/alicia}/logs"
 fi
 : "${ALICIA_LOG_FILE:="${ALICIA_LOG_DIR}/alicia.log"}"
-: "${ALICIA_LOG_LEVEL:=$LOG_LEVEL_INFO}"
+: "${ALICIA_LOG_LEVEL:=${LOG_LEVEL_INFO:-1}}"
 : "${ALICIA_LOG_MAX_SIZE:=10485760}"           # 10MB
 : "${ALICIA_LOG_MAX_FILES:=5}"
 : "${ALICIA_LOG_BUFFER_SIZE:=0}"
@@ -731,5 +740,5 @@ log_cleanup() {
 # Initialize logging on source (safe - won't fail if dirs don't exist yet)
 # ============================================================================
 if [[ -n "${ALICIA_HOME:-}" ]] && [[ -d "${ALICIA_LOG_DIR:-}" ]]; then
-    log_init "${ALICIA_LOG_DIR}" "${ALICIA_LOG_FILE}" 2>/dev/null || true
+    log_init "${ALICIA_LOG_DIR}" "${ALICIA_LOG_FILE:-${ALICIA_LOG_DIR}/alicia.log}" 2>/dev/null || true
 fi

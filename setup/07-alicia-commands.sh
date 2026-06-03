@@ -22,7 +22,7 @@
 #               missing dependencies required by alicia-health, alicia-repair.
 # ============================================================================
 
-set -euo pipefail
+set -uo pipefail
 
 # ============================================================================
 # Script Identity
@@ -36,7 +36,7 @@ readonly SCRIPT_VERSION="3.1.0"
 # ============================================================================
 for lib_file in "${SCRIPT_DIR}/../lib/"alicia-*.sh; do
     if [[ -f "$lib_file" ]]; then
-        source "$lib_file" 2>&1 || true
+        source "$lib_file" 2>/dev/null || true
     fi
 done
 
@@ -167,7 +167,7 @@ create_internal_scripts() {
     proot_exec bash -c 'cat > /usr/bin/alicia-install << "INSTALLEOF"
 #!/bin/bash
 # alicia-install - Install packages inside Alicia
-set -euo pipefail
+set -uo pipefail
 
 if [[ $# -eq 0 ]]; then
     echo "Usage: alicia-install <package> [package2 ...]"
@@ -193,7 +193,7 @@ chmod +x /usr/bin/alicia-install'
     proot_exec bash -c 'cat > /usr/bin/alicia-remove << "REMOVEEOF"
 #!/bin/bash
 # alicia-remove - Remove packages inside Alicia
-set -euo pipefail
+set -uo pipefail
 
 if [[ $# -eq 0 ]]; then
     echo "Usage: alicia-remove <package> [package2 ...]"
@@ -218,7 +218,7 @@ chmod +x /usr/bin/alicia-remove'
     proot_exec bash -c 'cat > /usr/bin/alicia-health << "HEALTHEOF"
 #!/bin/bash
 # alicia-health - System health check for Alicia
-set -euo pipefail
+set -uo pipefail
 
 echo "========================================="
 echo "  Alicia Desktop Environment - Health Check"
@@ -349,7 +349,7 @@ chmod +x /usr/bin/alicia-health'
     proot_exec bash -c 'cat > /usr/bin/alicia-backup << "BACKUPEOF"
 #!/bin/bash
 # alicia-backup - Create/restore backups for Alicia
-set -euo pipefail
+set -uo pipefail
 
 BACKUP_DIR="/home/alicia/.alicia/backups"
 TIMESTAMP=$(date "+%Y%m%d_%H%M%S")
@@ -470,7 +470,7 @@ chmod +x /usr/bin/alicia-backup'
     proot_exec bash -c 'cat > /usr/bin/alicia-repair << "REPAIREF"
 #!/bin/bash
 # alicia-repair - Repair common Alicia desktop issues
-set -euo pipefail
+set -uo pipefail
 
 echo "[Alicia] Running desktop repair..."
 echo ""
@@ -564,7 +564,7 @@ chmod +x /usr/bin/alicia-repair'
     proot_exec bash -c "cat > /usr/bin/alicia-about << ABOUTEOF
 #!/bin/bash
 # alicia-about - Show Alicia Desktop Environment information
-set -euo pipefail
+set -uo pipefail
 
 echo \"=========================================\"
 echo \"  Alicia Desktop Environment\"
@@ -608,7 +608,7 @@ chmod +x /usr/bin/alicia-about"
 #!/bin/bash
 # alicia-tool-store - Alicia tool management utility
 # Called by /usr/bin/alicia-tool-store wrapper
-set -euo pipefail
+set -uo pipefail
 
 ALICIA_SHARE_DIR="/usr/share/alicia"
 TOOL_STORE_DIR="/home/alicia/.alicia/tools"
@@ -743,7 +743,7 @@ chmod +x /usr/share/alicia/tool-store.sh'
 #!/bin/bash
 # alicia-system-info - Gather and display system information
 # Called by /usr/bin/alicia-system-info wrapper
-set -euo pipefail
+set -uo pipefail
 
 show_system_info() {
     local cpu_model
@@ -830,7 +830,7 @@ chmod +x /usr/bin/alicia-system-info'
     proot_exec bash -c 'cat > /usr/bin/alicia-vnc-info << "VNCINFOEOF"
 #!/bin/bash
 # alicia-vnc-info - Display VNC connection information
-set -euo pipefail
+set -uo pipefail
 
 LOCAL_IP=$(ip route get 8.8.8.8 2>/dev/null | awk "{print \$7; exit}" || echo "127.0.0.1")
 
@@ -858,7 +858,7 @@ chmod +x /usr/bin/alicia-vnc-info'
     proot_exec bash -c 'cat > /usr/bin/alicia-vnc-start << "VNCSTARTEOF"
 #!/bin/bash
 # alicia-vnc-start - Start VNC server inside proot
-set -euo pipefail
+set -uo pipefail
 
 DISPLAY_NUM="${1:-1}"
 RESOLUTION="${2:-1280x720}"
@@ -914,7 +914,7 @@ chmod +x /usr/bin/alicia-vnc-start'
     proot_exec bash -c 'cat > /usr/bin/alicia-vnc-stop << "VNCSTOPEOF"
 #!/bin/bash
 # alicia-vnc-stop - Stop VNC server inside proot
-set -euo pipefail
+set -uo pipefail
 
 DISPLAY_NUM="${1:-1}"
 
@@ -934,7 +934,7 @@ chmod +x /usr/bin/alicia-vnc-stop'
     proot_exec bash -c 'cat > /usr/bin/alicia-update << "UPDATEEOF"
 #!/bin/bash
 # alicia-update - Update system packages
-set -euo pipefail
+set -uo pipefail
 
 echo "[Alicia] Updating system packages..."
 if command -v apk &>/dev/null; then

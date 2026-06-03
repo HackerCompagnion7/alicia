@@ -26,7 +26,7 @@
 #               installation. Supports resumable installation.
 # ============================================================================
 
-set -euo pipefail
+set -uo pipefail
 
 # ============================================================================
 # Script Identity
@@ -41,7 +41,7 @@ readonly SCRIPT_VERSION="3.1.0"
 for lib_file in "${SCRIPT_DIR}/../lib/"alicia-*.sh; do
     if [[ -f "$lib_file" ]]; then
         # shellcheck source=/dev/null
-        source "$lib_file" 2>&1 || {
+        source "$lib_file" 2>/dev/null || {
             echo "[WARN] Failed to source library: $lib_file" >&2
         }
     fi
@@ -210,12 +210,23 @@ install_proot_distro() {
     fi
 
     log_info "Installing proot-distro package..."
-    if ! pkg install -y proot-distro 2>&1 | while IFS= read -r line; do
-        log_debug "  pkg: $line"
-    done; then
-        log_error "Failed to install proot-distro"
-        return 1
-    fi
+    local _retry=0
+    local _max_retries=3
+    while [[ $_retry -lt $_max_retries ]]; do
+        _retry=$(( _retry + 1 ))
+        if pkg install -y proot-distro 2>&1 | while IFS= read -r line; do
+            log_debug "  pkg: $line"
+        done; then
+            break
+        fi
+        if [[ $_retry -lt $_max_retries ]]; then
+            log_warn "proot-distro install failed, retrying in 5s... (attempt $_retry/$_max_retries)"
+            sleep 5
+        else
+            log_error "Failed to install proot-distro after $_max_retries attempts"
+            return 1
+        fi
+    done
 
     # Verify installation
     if ! command -v proot-distro &>/dev/null; then
@@ -250,18 +261,29 @@ install_alpine_linux() {
     log_info "Installing Alpine Linux distribution..."
     log_info "This may take several minutes depending on your internet speed..."
 
-    if ! proot-distro install alpine 2>&1 | while IFS= read -r line; do
-        log_debug "  proot-distro: $line"
-    done; then
-        log_error "Failed to install Alpine Linux"
-        log_error "Possible causes:"
-        log_error "  - No internet connection"
-        log_error "  - Insufficient storage space"
-        log_error "  - proot-distro version too old"
-        log_error ""
-        log_error "Try manually: proot-distro install alpine"
-        return 1
-    fi
+    local _alpine_retry=0
+    local _alpine_max_retries=3
+    while [[ $_alpine_retry -lt $_alpine_max_retries ]]; do
+        _alpine_retry=$(( _alpine_retry + 1 ))
+        if proot-distro install alpine 2>&1 | while IFS= read -r line; do
+            log_debug "  proot-distro: $line"
+        done; then
+            break
+        fi
+        if [[ $_alpine_retry -lt $_alpine_max_retries ]]; then
+            log_warn "Alpine install failed, retrying in 10s... (attempt $_alpine_retry/$_alpine_max_retries)"
+            sleep 10
+        else
+            log_error "Failed to install Alpine Linux after $_alpine_max_retries attempts"
+            log_error "Possible causes:"
+            log_error "  - No internet connection"
+            log_error "  - Insufficient storage space"
+            log_error "  - proot-distro version too old"
+            log_error ""
+            log_error "Try manually: proot-distro install alpine"
+            return 1
+        fi
+    done
 
     # Verify installation
     if ! proot-distro list 2>/dev/null | grep -q "alpine"; then

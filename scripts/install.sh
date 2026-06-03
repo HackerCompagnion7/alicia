@@ -27,7 +27,10 @@
 # Usage:        install.sh [--unattended] [--verbose] [--skip-step STEP]
 # ============================================================================
 
-set -euo pipefail
+set -uo pipefail
+# Note: 'set -e' (errexit) is intentionally NOT set here because it causes
+# fragile behavior during library sourcing. Errors are handled explicitly
+# with || and if checks instead.
 
 # ============================================================================
 # Script Directory Resolution
@@ -40,23 +43,49 @@ ALICIA_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 # ============================================================================
 # Source Alicia Libraries
 # ============================================================================
+# We source each library in a subshell first to test if it loads cleanly,
+# then source it in the current shell. This prevents partial-loading issues
+# where a library fails mid-way, leaving readonly variables behind that
+# prevent the fallback from working.
+_ALICIA_LIBS_LOADED=true
 for lib_file in "${LIB_DIR}"/alicia-*.sh; do
     if [[ -f "${lib_file}" ]]; then
-        # shellcheck source=/dev/null
-        if ! source "${lib_file}" 2>&1; then
+        # Test if the library can be sourced without errors (in a subshell)
+        if ! (source "${lib_file}") 2>/dev/null; then
             echo "[WARN] Failed to source library: ${lib_file} (continuing with fallbacks)" >&2
+            _ALICIA_LIBS_LOADED=false
+            continue
         fi
+        # Source for real in the current shell
+        source "${lib_file}" 2>/dev/null || {
+            echo "[WARN] Error sourcing library: ${lib_file} (continuing with fallbacks)" >&2
+            _ALICIA_LIBS_LOADED=false
+        }
     fi
 done
 
 # Provide fallback functions if libraries failed to load
 if ! declare -f log_info &>/dev/null; then
-    # Minimal fallback logging
-    readonly COLOR_RESET='\033[0m' COLOR_RED='\033[0;31m' COLOR_GREEN='\033[0;32m'
-    readonly COLOR_YELLOW='\033[0;33m' COLOR_CYAN='\033[0;36m' COLOR_BOLD='\033[1m'
-    readonly COLOR_BOLD_CYAN='\033[1;36m' COLOR_BOLD_WHITE='\033[1;37m'
-    readonly COLOR_BOLD_GREEN='\033[1;32m' COLOR_DIM='\033[2m'
-    readonly COLOR_BOLD_BLUE='\033[1;34m'
+    # Minimal fallback logging - use 'declare -r' only if not already set
+    # to avoid conflicts with partially-loaded alicia-log.sh
+    _safe_readonly() {
+        local varname="$1" varval="$2"
+        if [[ -z "${!varname:-}" ]]; then
+            declare -rg "$varname=$varval" 2>/dev/null || true
+        fi
+    }
+    _safe_readonly COLOR_RESET '\033[0m'
+    _safe_readonly COLOR_RED '\033[0;31m'
+    _safe_readonly COLOR_GREEN '\033[0;32m'
+    _safe_readonly COLOR_YELLOW '\033[0;33m'
+    _safe_readonly COLOR_CYAN '\033[0;36m'
+    _safe_readonly COLOR_BOLD '\033[1m'
+    _safe_readonly COLOR_BOLD_CYAN '\033[1;36m'
+    _safe_readonly COLOR_BOLD_WHITE '\033[1;37m'
+    _safe_readonly COLOR_BOLD_GREEN '\033[1;32m'
+    _safe_readonly COLOR_DIM '\033[2m'
+    _safe_readonly COLOR_BOLD_BLUE '\033[1;34m'
+    unset -f _safe_readonly
     log_debug()   { :; }
     log_info()    { printf "${COLOR_GREEN}[INFO]${COLOR_RESET}  %s\n" "$*"; }
     log_warn()    { printf "${COLOR_YELLOW}[WARN]${COLOR_RESET}  %s\n" "$*" >&2; }

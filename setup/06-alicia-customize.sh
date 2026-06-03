@@ -29,7 +29,7 @@
 #               notification daemon, and power manager settings.
 # ============================================================================
 
-set -euo pipefail
+set -uo pipefail
 
 # ============================================================================
 # Script Identity
@@ -43,7 +43,7 @@ readonly SCRIPT_VERSION="3.1.0"
 # ============================================================================
 for lib_file in "${SCRIPT_DIR}/../lib/"alicia-*.sh; do
     if [[ -f "$lib_file" ]]; then
-        source "$lib_file" 2>&1 || true
+        source "$lib_file" 2>/dev/null || true
     fi
 done
 
