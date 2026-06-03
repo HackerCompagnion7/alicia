@@ -207,8 +207,8 @@ sshd_start() {
         return 1
     }
 
-    set_state "SSHD_RUNNING" "true"
-    set_state "SSHD_PORT" "$port"
+    alicia_set_state "SSHD_RUNNING" "true"
+    alicia_set_state "SSHD_PORT" "$port"
     log_info "SSH server started on port $port"
     return 0
 }
@@ -217,7 +217,7 @@ sshd_start() {
 sshd_stop() {
     log_info "Stopping SSH server..."
     proot_exec "$ALICIA_DISTRO_NAME" "pkill sshd 2>/dev/null || true"
-    set_state "SSHD_RUNNING" "false"
+    alicia_set_state "SSHD_RUNNING" "false"
     log_info "SSH server stopped"
 }
 
@@ -262,15 +262,15 @@ webserver_start() {
         return 1
     }
 
-    set_state "WEBSERVER_RUNNING" "true"
-    set_state "WEBSERVER_PORT" "$port"
+    alicia_set_state "WEBSERVER_RUNNING" "true"
+    alicia_set_state "WEBSERVER_PORT" "$port"
     log_info "Web server started on port $port"
 }
 
 # webserver_stop - Stop web server
 webserver_stop() {
     proot_exec "$ALICIA_DISTRO_NAME" "pkill -f 'http.server\|SimpleHTTPServer' 2>/dev/null || true"
-    set_state "WEBSERVER_RUNNING" "false"
+    alicia_set_state "WEBSERVER_RUNNING" "false"
 }
 
 # ============================================================================

@@ -515,7 +515,7 @@ log_count_errors() {
         echo "0"
         return 0
     fi
-    grep -c "\[ERROR\]\|\[CRITICAL\]" "$log_file" 2>/dev/null || echo "0"
+    grep -cE '\[ERROR\]|\[CRITICAL\]' "$log_file" 2>/dev/null || echo "0"
 }
 
 # log_get_last_error - Get the last error message from log
@@ -526,7 +526,7 @@ log_get_last_error() {
         echo "No log file found"
         return 1
     fi
-    grep "\[ERROR\]\|\[CRITICAL\]" "$log_file" | tail -n "$count"
+    grep -E '\[ERROR\]|\[CRITICAL\]' "$log_file" | tail -n "$count"
 }
 
 # log_search - Search log file for a pattern

@@ -191,10 +191,10 @@ alicia_version_compare() {
     case "${op}" in
         eq|==|=)  [[ ${num_a} -eq ${num_b} ]] ;;
         ne|!=)    [[ ${num_a} -ne ${num_b} ]] ;;
-        lt|<)     [[ ${num_a} -lt ${num_b} ]] ;;
-        le|<=)    [[ ${num_a} -le ${num_b} ]] ;;
-        gt|>)     [[ ${num_a} -gt ${num_b} ]] ;;
-        ge|>=)    [[ ${num_a} -ge ${num_b} ]] ;;
+        lt|'<')   [[ ${num_a} -lt ${num_b} ]] ;;
+        le|'<=')  [[ ${num_a} -le ${num_b} ]] ;;
+        gt|'>')   [[ ${num_a} -gt ${num_b} ]] ;;
+        ge|'>=')  [[ ${num_a} -ge ${num_b} ]] ;;
         *)
             echo "ERROR: Unknown comparison operator: ${op}" >&2
             return 2
@@ -326,7 +326,7 @@ alicia_mark_installed() {
     fi
 
     local marker="${ALICIA_STATE_DIR}/${component}.installed"
-    alicia_atomic_write "${marker}" "version=${version}\ninstalled_at=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+    alicia_atomic_write "${marker}" "version=${version}"$'\n'"installed_at=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 }
 
 # Check if a component is configured.
@@ -830,10 +830,10 @@ alicia_lock_acquire() {
 
     while [[ ${elapsed} -lt ${timeout} ]]; do
         # Attempt to create lock file atomically
-        if (set -o noclobber; echo "${$}" > "${lock_file}") 2>/dev/null; then
+        if (set -o noclobber; echo "$$" > "${lock_file}") 2>/dev/null; then
             _ALICIA_CURRENT_LOCK="${name}"
             # Write lock metadata
-            echo "pid=${$}\ntime=$(date -u '+%Y-%m-%dT%H:%M:%SZ')\nhost=$(hostname 2>/dev/null || echo 'unknown')" > "${lock_file}"
+            printf 'pid=%s\ntime=%s\nhost=%s\n' "$$" "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$(hostname 2>/dev/null || echo 'unknown')" > "${lock_file}"
             return 0
         fi
 

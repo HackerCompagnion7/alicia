@@ -30,8 +30,8 @@ _ALICIA_SYSTEM_LOADED=1
 
 # Source dependencies (safe - won't fail if already loaded)
 _ALICIA_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${_ALICIA_LIB_DIR}/alicia-core.sh" 2>&1 || true
-source "${_ALICIA_LIB_DIR}/alicia-log.sh" 2>&1 || true
+source "${_ALICIA_LIB_DIR}/alicia-core.sh" 2>/dev/null || true
+source "${_ALICIA_LIB_DIR}/alicia-log.sh" 2>/dev/null || true
 
 # ============================================================================
 # Default Paths and Constants
@@ -103,7 +103,7 @@ proot_distro_install() {
         log_debug "  proot: $line"
     done; then
         log_info "Distribution '$distro' installed successfully"
-        set_state "DISTRO_${distro^^}_INSTALLED" "true"
+        alicia_set_state "DISTRO_${distro^^}_INSTALLED" "true"
         return 0
     else
         log_error "Failed to install distribution: $distro"
@@ -147,7 +147,7 @@ proot_start() {
     " -- "$@" &
 
     local pid=$!
-    set_state "PROOT_PID" "$pid"
+    alicia_set_state "PROOT_PID" "$pid"
     log_info "proot session started with PID: $pid"
     return 0
 }
@@ -186,13 +186,13 @@ proot_exec() {
 # proot_stop - Stop the proot session
 proot_stop() {
     local pid
-    pid=$(get_state "PROOT_PID" "0")
+    pid=$(alicia_get_state "PROOT_PID" "0")
     if [[ "$pid" != "0" ]] && kill -0 "$pid" 2>/dev/null; then
         log_info "Stopping proot session (PID: $pid)"
         kill -TERM "$pid" 2>/dev/null || true
         sleep 2
         kill -9 "$pid" 2>/dev/null || true
-        set_state "PROOT_PID" "0"
+        alicia_set_state "PROOT_PID" "0"
         log_info "proot session stopped"
     else
         log_debug "No active proot session to stop"
@@ -202,7 +202,7 @@ proot_stop() {
 # proot_is_running - Check if proot session is running
 proot_is_running() {
     local pid
-    pid=$(get_state "PROOT_PID" "0")
+    pid=$(alicia_get_state "PROOT_PID" "0")
     [[ "$pid" != "0" ]] && kill -0 "$pid" 2>/dev/null
 }
 
@@ -325,8 +325,8 @@ vnc_start() {
         return 1
     }
 
-    set_state "VNC_RUNNING" "true"
-    set_state "VNC_PORT" "$port"
+    alicia_set_state "VNC_RUNNING" "true"
+    alicia_set_state "VNC_PORT" "$port"
     log_info "VNC server started on port $port"
     return 0
 }
@@ -344,7 +344,7 @@ vnc_stop() {
         proot_exec "$ALICIA_DISTRO_NAME" "pkill -9 Xvnc 2>/dev/null || pkill -9 Xvfb 2>/dev/null || true"
     }
 
-    set_state "VNC_RUNNING" "false"
+    alicia_set_state "VNC_RUNNING" "false"
     log_info "VNC server stopped"
     return 0
 }
@@ -448,7 +448,7 @@ xvfb_start() {
 
     sleep 2
     if xvfb_is_running; then
-        set_state "XVFB_RUNNING" "true"
+        alicia_set_state "XVFB_RUNNING" "true"
         log_info "Xvfb started successfully"
         return 0
     else
@@ -461,7 +461,7 @@ xvfb_start() {
 xvfb_stop() {
     log_info "Stopping Xvfb..."
     proot_exec "$ALICIA_DISTRO_NAME" "pkill Xvfb 2>/dev/null || true"
-    set_state "XVFB_RUNNING" "false"
+    alicia_set_state "XVFB_RUNNING" "false"
     log_info "Xvfb stopped"
 }
 
@@ -497,7 +497,7 @@ de_start() {
             ;;
     esac
 
-    set_state "DE_RUNNING" "true"
+    alicia_set_state "DE_RUNNING" "true"
     log_info "Desktop environment started: $desktop_env"
     return 0
 }
@@ -506,7 +506,7 @@ de_start() {
 de_stop() {
     log_info "Stopping desktop environment..."
     proot_exec "$ALICIA_DISTRO_NAME" "pkill -f xfce4-session 2>/dev/null; pkill -f fluxbox 2>/dev/null; pkill -f lxsession 2>/dev/null" || true
-    set_state "DE_RUNNING" "false"
+    alicia_set_state "DE_RUNNING" "false"
     log_info "Desktop environment stopped"
 }
 
@@ -534,7 +534,7 @@ service_start() {
         log_error "Failed to start service: $service_name"
         return 1
     }
-    set_state "SERVICE_${service_name^^}" "running"
+    alicia_set_state "SERVICE_${service_name^^}" "running"
     log_info "Service started: $service_name"
     return 0
 }
@@ -552,7 +552,7 @@ service_stop() {
         log_warn "Failed to stop service: $service_name"
         return 1
     }
-    set_state "SERVICE_${service_name^^}" "stopped"
+    alicia_set_state "SERVICE_${service_name^^}" "stopped"
     log_info "Service stopped: $service_name"
     return 0
 }
@@ -973,7 +973,7 @@ alicia_full_start() {
         return 1
     fi
 
-    set_state "ALICIA_RUNNING" "true"
+    alicia_set_state "ALICIA_RUNNING" "true"
     log_info "Alicia Desktop Environment is running"
     log_info "Connect your VNC client to: $(network_get_ip):$ALICIA_VNC_PORT"
     return 0
@@ -987,7 +987,7 @@ alicia_full_stop() {
     vnc_stop 2>/dev/null || true
     proot_stop 2>/dev/null || true
 
-    set_state "ALICIA_RUNNING" "false"
+    alicia_set_state "ALICIA_RUNNING" "false"
     log_info "Alicia Desktop Environment stopped"
     return 0
 }

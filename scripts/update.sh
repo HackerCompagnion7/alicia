@@ -146,10 +146,10 @@ compare_versions() {
     case "${op}" in
         eq|==) [[ ${num_a} -eq ${num_b} ]] ;;
         ne|!=) [[ ${num_a} -ne ${num_b} ]] ;;
-        lt|<)  [[ ${num_a} -lt ${num_b} ]] ;;
-        le|<=) [[ ${num_a} -le ${num_b} ]] ;;
-        gt|>)  [[ ${num_a} -gt ${num_b} ]] ;;
-        ge|>=) [[ ${num_a} -ge ${num_b} ]] ;;
+        lt|'<')  [[ ${num_a} -lt ${num_b} ]] ;;
+        le|'<=') [[ ${num_a} -le ${num_b} ]] ;;
+        gt|'>')  [[ ${num_a} -gt ${num_b} ]] ;;
+        ge|'>=') [[ ${num_a} -ge ${num_b} ]] ;;
     esac
 }
 

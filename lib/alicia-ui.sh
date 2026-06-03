@@ -344,9 +344,9 @@ ui_configure_vnc() {
         ALICIA_VNC_PORT="$port"
     fi
 
-    set_config_value "VNC_RESOLUTION" "$ALICIA_VNC_RESOLUTION"
-    set_config_value "VNC_PORT" "$ALICIA_VNC_PORT"
-    set_config_value "VNC_PASSWORD" "$ALICIA_VNC_PASSWORD"
+    alicia_set_config_value "VNC_RESOLUTION" "$ALICIA_VNC_RESOLUTION"
+    alicia_set_config_value "VNC_PORT" "$ALICIA_VNC_PORT"
+    alicia_set_config_value "VNC_PASSWORD" "$ALICIA_VNC_PASSWORD"
 
     log_info "VNC configured: Resolution=$ALICIA_VNC_RESOLUTION, Port=$ALICIA_VNC_PORT"
     ui_show_message "VNC Configuration" "VNC Settings:\n\nResolution: $ALICIA_VNC_RESOLUTION\nPort: $ALICIA_VNC_PORT\n\nConfiguration saved."
@@ -401,14 +401,14 @@ ui_set_wallpaper() {
         log_warn "Could not set wallpaper via xfconf-query"
     }
 
-    set_config_value "WALLPAPER" "$wallpaper_path"
+    alicia_set_config_value "WALLPAPER" "$wallpaper_path"
     log_info "Wallpaper set successfully"
 }
 
 # ui_get_wallpaper - Get current wallpaper path
 ui_get_wallpaper() {
     proot_exec "$ALICIA_DISTRO_NAME" "xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path 2>/dev/null" || \
-    get_config_value "WALLPAPER" "/usr/share/backgrounds/alicia-default.png"
+    alicia_get_config_value "WALLPAPER" "/usr/share/backgrounds/alicia-default.png"
 }
 
 # ui_list_wallpapers - List available wallpapers
@@ -448,7 +448,7 @@ ui_set_theme() {
     proot_exec "$ALICIA_DISTRO_NAME" "mkdir -p /home/alicia/.config/gtk-3.0 && echo '[Settings]
 gtk-theme-name=$theme_name' > /home/alicia/.config/gtk-3.0/settings.ini" 2>/dev/null || true
 
-    set_config_value "GTK_THEME" "$theme_name"
+    alicia_set_config_value "GTK_THEME" "$theme_name"
     log_info "Theme set to: $theme_name"
 }
 
@@ -476,7 +476,7 @@ ui_set_icon_theme() {
 
     log_info "Setting icon theme: $theme_name"
     proot_exec "$ALICIA_DISTRO_NAME" "export DISPLAY=${ALICIA_DISPLAY}; xfconf-query -c xsettings -p /Net/IconThemeName -s '$theme_name' 2>/dev/null" || true
-    set_config_value "ICON_THEME" "$theme_name"
+    alicia_set_config_value "ICON_THEME" "$theme_name"
 }
 
 # ui_list_icon_themes - List available icon themes
@@ -496,8 +496,8 @@ ui_set_font() {
     log_info "Setting font: $font_name $font_size"
 
     proot_exec "$ALICIA_DISTRO_NAME" "export DISPLAY=${ALICIA_DISPLAY}; xfconf-query -c xsettings -p /Gtk/FontName -s '$font_name $font_size' 2>/dev/null" || true
-    set_config_value "FONT_NAME" "$font_name"
-    set_config_value "FONT_SIZE" "$font_size"
+    alicia_set_config_value "FONT_NAME" "$font_name"
+    alicia_set_config_value "FONT_SIZE" "$font_size"
 }
 
 # ui_list_fonts - List available fonts
@@ -625,25 +625,25 @@ ui_set_font_size() {
 
     proot_exec "$ALICIA_DISTRO_NAME" "export DISPLAY=${ALICIA_DISPLAY}; xfconf-query -c xsettings -p /Xft/DPI -s $dpi 2>/dev/null" || true
 
-    set_config_value "FONT_SIZE" "$size"
-    set_config_value "DPI" "$dpi"
+    alicia_set_config_value "FONT_SIZE" "$size"
+    alicia_set_config_value "DPI" "$dpi"
 }
 
 # ui_toggle_high_contrast - Toggle high contrast mode
 ui_toggle_high_contrast() {
     local current
-    current=$(get_config_value "HIGH_CONTRAST" "false")
+    current=$(alicia_get_config_value "HIGH_CONTRAST" "false")
 
     if [[ "$current" == "false" ]]; then
         log_info "Enabling high contrast mode"
         proot_exec "$ALICIA_DISTRO_NAME" "export DISPLAY=${ALICIA_DISPLAY}; xfconf-query -c xsettings -p /Net/ThemeName -s 'HighContrast' 2>/dev/null" || true
-        set_config_value "HIGH_CONTRAST" "true"
+        alicia_set_config_value "HIGH_CONTRAST" "true"
     else
         log_info "Disabling high contrast mode"
         local theme
-        theme=$(get_config_value "GTK_THEME" "Adwaita")
+        theme=$(alicia_get_config_value "GTK_THEME" "Adwaita")
         proot_exec "$ALICIA_DISTRO_NAME" "export DISPLAY=${ALICIA_DISPLAY}; xfconf-query -c xsettings -p /Net/ThemeName -s '$theme' 2>/dev/null" || true
-        set_config_value "HIGH_CONTRAST" "false"
+        alicia_set_config_value "HIGH_CONTRAST" "false"
     fi
 }
 
@@ -659,7 +659,7 @@ ui_set_volume() {
     proot_exec "$ALICIA_DISTRO_NAME" "amixer set Master ${level}% 2>/dev/null || pactl set-sink-volume 0 ${level}% 2>/dev/null" || {
         log_warn "Could not set volume - audio may not be available"
     }
-    set_config_value "VOLUME" "$level"
+    alicia_set_config_value "VOLUME" "$level"
 }
 
 # ui_get_volume - Get current volume level
@@ -691,8 +691,8 @@ LAYOUT=$layout
 VARIANT=$variant
 KB_EOF"
 
-    set_config_value "KEYBOARD_LAYOUT" "$layout"
-    set_config_value "KEYBOARD_VARIANT" "$variant"
+    alicia_set_config_value "KEYBOARD_LAYOUT" "$layout"
+    alicia_set_config_value "KEYBOARD_VARIANT" "$variant"
 }
 
 # ============================================================================
@@ -707,7 +707,7 @@ ui_set_locale() {
     proot_exec "$ALICIA_DISTRO_NAME" "sed -i 's/^# *\($locale\)/\1/' /etc/locale.gen 2>/dev/null; locale-gen $locale 2>/dev/null" || \
     proot_exec "$ALICIA_DISTRO_NAME" "echo 'export LANG=$locale' >> /home/alicia/.bashrc" 2>/dev/null || true
 
-    set_config_value "LOCALE" "$locale"
+    alicia_set_config_value "LOCALE" "$locale"
 }
 
 # ============================================================================
