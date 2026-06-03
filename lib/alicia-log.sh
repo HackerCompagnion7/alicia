@@ -26,7 +26,7 @@
 
 # set -euo pipefail removed for library sourcing safety
 
-if [[ -n "${_ALICIA_LOG_LOADED:-}" ]]; then
+if [[ -n "${_ALICIA_LOG_LOADED:-}" && -z "${_ALICIA_FORCE_RELOAD:-}" ]]; then
     return 0
 fi
 _ALICIA_LOG_LOADED=1
@@ -69,6 +69,7 @@ _safe_readonly COLOR_BOLD_YELLOW '\033[1;33m'
 _safe_readonly COLOR_BOLD_BLUE '\033[1;34m'
 _safe_readonly COLOR_BOLD_MAGENTA '\033[1;35m'
 _safe_readonly COLOR_BOLD_CYAN '\033[1;36m'
+_safe_readonly COLOR_BOLD_WHITE '\033[1;37m'
 _safe_readonly COLOR_BG_RED '\033[41m'
 _safe_readonly COLOR_BG_YELLOW '\033[43m'
 unset -f _safe_readonly
@@ -98,7 +99,7 @@ fi
 # ============================================================================
 _ALICIA_LOG_BUFFER=()
 _ALICIA_LOG_CURRENT_MODULE="main"
-_ALICIA_LOG_TIMERS=()
+declare -A _ALICIA_LOG_TIMERS=()
 _ALICIA_LOG_INITIALIZED=0
 _ALICIA_LOG_SECTIONS=()
 

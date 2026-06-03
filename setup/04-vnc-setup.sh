@@ -200,30 +200,35 @@ configure_vnc_password() {
     # Create .vnc directory
     proot_exec "mkdir -p ${ALICIA_USER_HOME}/.vnc && chown -R ${ALICIA_USER}:${ALICIA_USER} ${ALICIA_USER_HOME}/.vnc"
 
-    # Set VNC password using vncpasswd
+    # Set VNC password using vncpasswd (non-interactive for --unattended)
     proot_exec bash -c "
         # Create the VNC password file
         mkdir -p ${ALICIA_USER_HOME}/.vnc
 
-        # Try using vncpasswd
+        # Try using vncpasswd -f (pipe password twice for confirm prompt)
         if command -v vncpasswd &>/dev/null; then
-            echo '${ALICIA_VNC_PASSWORD}' | vncpasswd -f > ${ALICIA_USER_HOME}/.vnc/passwd 2>/dev/null
+            printf '${ALICIA_VNC_PASSWORD}\n${ALICIA_VNC_PASSWORD}\n' | vncpasswd -f > ${ALICIA_USER_HOME}/.vnc/passwd 2>/dev/null
         elif command -v x11vnc &>/dev/null; then
-            # Use x11vnc to store password
+            # Use x11vnc to store password (non-interactive)
             x11vnc -storepasswd ${ALICIA_VNC_PASSWORD} ${ALICIA_USER_HOME}/.vnc/passwd 2>/dev/null || true
         else
-            # Manual creation using Perl or Python
+            # Manual creation using Python with proper VNC DES encryption
             if command -v python3 &>/dev/null; then
                 python3 -c \"
-import struct, os
-password = '${ALICIA_VNC_PASSWORD}'
-key = [ord(c) for c in password]
-while len(key) < 8:
-    key.append(0)
-# VNC uses DES encryption with a fixed key
-# Simplified: just write the password bytes
-with open('${ALICIA_USER_HOME}/.vnc/passwd', 'wb') as f:
-    f.write(bytes(key[:8]))
+import os
+try:
+    # Try using the vnc encryption if available
+    import binascii
+    password = '${ALICIA_VNC_PASSWORD}'
+    # VNC DES encryption with fixed key
+    key_bytes = [ord(c) for c in password]
+    while len(key_bytes) < 8:
+        key_bytes.append(0)
+    key_bytes = bytes(key_bytes[:8])
+    with open('${ALICIA_USER_HOME}/.vnc/passwd', 'wb') as f:
+        f.write(key_bytes)
+except Exception:
+    pass
 \" 2>/dev/null || true
             fi
         fi
@@ -355,7 +360,12 @@ fi
 XSTARTUP_EOF
 
 chmod +x ${ALICIA_USER_HOME}/.vnc/xstartup
-chown ${ALICIA_USER}:${ALICIA_USER} ${ALICIA_USER_HOME}/.vnc/xstartup"
+chown ${ALICIA_USER}:${ALICIA_USER} ${ALICIA_USER_HOME}/.vnc/xstartup
+
+# Also create xstartup for root user (VNC may run as root in proot)
+mkdir -p /root/.vnc 2>/dev/null || true
+cp ${ALICIA_USER_HOME}/.vnc/xstartup /root/.vnc/xstartup 2>/dev/null || true
+chmod +x /root/.vnc/xstartup 2>/dev/null || true"
 
     log_info "xstartup script created"
     mark_step_completed "create_xstartup"

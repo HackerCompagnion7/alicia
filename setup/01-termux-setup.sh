@@ -60,6 +60,7 @@ if ! declare -f log_info &>/dev/null; then
     readonly C_BOLD_GREEN='\033[1;32m'
     readonly C_BOLD_BLUE='\033[1;34m'
     readonly C_BOLD_CYAN='\033[1;36m'
+    readonly C_BOLD_WHITE='\033[1;37m'
     readonly C_DIM='\033[2m'
 
     log_debug()   { :; }
@@ -293,7 +294,7 @@ validate_termux_environment() {
 
     # Check available storage
     local storage_avail
-    storage_avail=$(df -BM "$HOME" 2>/dev/null | tail -1 | awk '{print $4}' | tr -d 'M')
+    storage_avail=$(df -k "$HOME" 2>/dev/null | tail -1 | awk '{print int($4/1024)}')
     if [[ -n "${storage_avail:-}" && $storage_avail -gt 0 ]]; then
         log_info "Available storage: ${storage_avail}MB"
         if [[ $storage_avail -lt 4096 ]]; then

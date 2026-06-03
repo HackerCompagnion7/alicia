@@ -103,15 +103,28 @@ apk_install() {
     shift
     local packages=("$@")
     log_info "$description: ${packages[*]}"
-    proot_exec "apk add --no-cache ${packages[*]} 2>&1" || {
+    local output
+    output=$(proot_exec "apk add --no-cache ${packages[*]} 2>&1")
+    local rc=$?
+    if [[ $rc -ne 0 ]]; then
         log_warn "Some packages may have failed: ${packages[*]}"
+        log_debug "apk output: $output"
         # Try installing one by one to identify failures
         for pkg in "${packages[@]}"; do
-            proot_exec "apk add --no-cache $pkg 2>&1" >/dev/null 2>&1 || {
-                log_debug "Package not available or failed: $pkg"
-            }
+            local pkg_output
+            pkg_output=$(proot_exec "apk add --no-cache $pkg 2>&1")
+            local pkg_rc=$?
+            if [[ $pkg_rc -ne 0 ]]; then
+                log_warn "Package failed: $pkg (exit: $pkg_rc)"
+                log_debug "  output: $pkg_output"
+            else
+                log_debug "Package installed: $pkg"
+            fi
         done
-    }
+    else
+        log_debug "$description: success"
+    fi
+    return 0
 }
 
 # ============================================================================

@@ -25,7 +25,8 @@
 # Usage:        status.sh [--json] [--short]
 # ============================================================================
 
-set -euo pipefail
+set -uo pipefail
+# Note: 'set -e' removed to prevent premature exit on library sourcing issues
 
 # ============================================================================
 # Script Directory Resolution
@@ -39,9 +40,8 @@ LIB_DIR="${SCRIPT_DIR}/../lib"
 for lib_file in "${LIB_DIR}"/alicia-*.sh; do
     if [[ -f "${lib_file}" ]]; then
         # shellcheck source=/dev/null
-        source "${lib_file}" 2>&1 || {
-            echo "ERROR: Failed to source library: ${lib_file}" >&2
-            exit 1
+        source "${lib_file}" 2>/dev/null || {
+            echo "[WARN] Failed to source library: ${lib_file}" >&2
         }
     fi
 done
@@ -168,20 +168,38 @@ get_vnc_status() {
 
 # Get proot status
 get_proot_status() {
-    if proot_is_running 2>/dev/null; then
+    # Method 1: Check via library function
+    if declare -f proot_is_running &>/dev/null && proot_is_running 2>/dev/null; then
         echo "running"
-    else
-        echo "stopped"
+        return 0
     fi
+    # Method 2: Check if proot-distro command exists and a distro is installed
+    if command -v proot-distro &>/dev/null; then
+        if proot-distro list 2>/dev/null | grep -q "alpine\|debian\|ubuntu"; then
+            echo "installed"
+            return 0
+        fi
+        echo "available"
+        return 0
+    fi
+    echo "not_installed"
 }
 
 # Get desktop environment status
 get_de_status() {
-    if de_is_running 2>/dev/null; then
+    # Method 1: Check via library function
+    if declare -f de_is_running &>/dev/null && de_is_running 2>/dev/null; then
         echo "running"
-    else
-        echo "stopped"
+        return 0
     fi
+    # Method 2: Check if XFCE is installed inside proot
+    if command -v proot-distro &>/dev/null; then
+        if proot-distro login alpine -- command -v startxfce4 2>/dev/null; then
+            echo "installed"
+            return 0
+        fi
+    fi
+    echo "not_installed"
 }
 
 # Get VNC port

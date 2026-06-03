@@ -64,6 +64,22 @@ for lib_file in "${LIB_DIR}"/alicia-*.sh; do
     fi
 done
 
+# Safety net: ensure all COLOR_* variables are defined even if alicia-log.sh
+# was partially loaded (set -u would otherwise fail on COLOR_BOLD_WHITE etc.)
+: "${COLOR_RESET:=\033[0m}"
+: "${COLOR_RED:=\033[0;31m}"
+: "${COLOR_GREEN:=\033[0;32m}"
+: "${COLOR_YELLOW:=\033[0;33m}"
+: "${COLOR_CYAN:=\033[0;36m}"
+: "${COLOR_BOLD:=\033[1m}"
+: "${COLOR_DIM:=\033[2m}"
+: "${COLOR_BOLD_RED:=\033[1;31m}"
+: "${COLOR_BOLD_GREEN:=\033[1;32m}"
+: "${COLOR_BOLD_YELLOW:=\033[1;33m}"
+: "${COLOR_BOLD_BLUE:=\033[1;34m}"
+: "${COLOR_BOLD_CYAN:=\033[1;36m}"
+: "${COLOR_BOLD_WHITE:=\033[1;37m}"
+
 # Provide fallback functions if libraries failed to load
 if ! declare -f log_info &>/dev/null; then
     # Minimal fallback logging - use 'declare -r' only if not already set
@@ -541,11 +557,14 @@ run_setup_script() {
     step_start=$(date +%s)
 
     # PUNTO 10: Run with live output (NOT silenced to file)
+    # IMPORTANT: We must capture the exit code of the setup script, not the pipe.
+    # Using PIPESTATUS to get the exit code of the first command in the pipeline.
     local exit_code=0
     if [[ "${VERBOSE}" == "true" ]]; then
         bash -x "${script_path}" 2>&1 | while IFS= read -r line; do
             printf "  %s\n" "$line"
-        done || exit_code=$?
+        done
+        exit_code=${PIPESTATUS[0]:-0}
     else
         # Show output LIVE - pipe through tee so user sees progress
         _start_spinner "${description}"
@@ -582,7 +601,8 @@ run_setup_script() {
                     echo "$line" >> "${LOG_FILE}" 2>/dev/null || true
                     ;;
             esac
-        done || exit_code=$?
+        done
+        exit_code=${PIPESTATUS[0]:-0}
         _stop_spinner
     fi
 
@@ -721,6 +741,35 @@ validate_installation() {
         printf "  ${COLOR_GREEN}[OK]${COLOR_RESET} Configuration\n"
     else
         printf "  ${COLOR_YELLOW}[WARN]${COLOR_RESET} Configuration missing (using defaults)\n"
+    fi
+
+    # Check desktop environment is installed inside proot
+    log_info "Validating desktop environment..."
+    if command -v proot-distro &>/dev/null; then
+        if proot-distro login "${ALICIA_DEFAULT_PROOT_DISTRO}" -- command -v startxfce4 2>/dev/null; then
+            printf "  ${COLOR_GREEN}[OK]${COLOR_RESET} XFCE4 desktop (startxfce4)\n"
+        else
+            printf "  ${COLOR_RED}[FAIL]${COLOR_RESET} XFCE4 desktop NOT INSTALLED (startxfce4 not found)\n"
+            ((failures++)) || true
+        fi
+        # Check xstartup script
+        if proot-distro login "${ALICIA_DEFAULT_PROOT_DISTRO}" -- test -x /home/alicia/.vnc/xstartup 2>/dev/null || \
+           proot-distro login "${ALICIA_DEFAULT_PROOT_DISTRO}" -- test -x /root/.vnc/xstartup 2>/dev/null; then
+            printf "  ${COLOR_GREEN}[OK]${COLOR_RESET} VNC xstartup script\n"
+        else
+            printf "  ${COLOR_RED}[FAIL]${COLOR_RESET} VNC xstartup script NOT FOUND\n"
+            ((failures++)) || true
+        fi
+        # Check VNC server binary
+        if proot-distro login "${ALICIA_DEFAULT_PROOT_DISTRO}" -- command -v vncserver 2>/dev/null || \
+           proot-distro login "${ALICIA_DEFAULT_PROOT_DISTRO}" -- command -v Xvnc 2>/dev/null; then
+            printf "  ${COLOR_GREEN}[OK]${COLOR_RESET} VNC server binary\n"
+        else
+            printf "  ${COLOR_RED}[FAIL]${COLOR_RESET} VNC server binary NOT FOUND\n"
+            ((failures++)) || true
+        fi
+    else
+        printf "  ${COLOR_YELLOW}[WARN]${COLOR_RESET} Cannot validate desktop (proot-distro not available)\n"
     fi
 
     # PUNTO 4: Check ALL alicia commands exist inside proot

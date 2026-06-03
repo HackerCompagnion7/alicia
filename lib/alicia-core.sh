@@ -31,7 +31,7 @@
 # ============================================================================
 # Guard against double-sourcing
 # ============================================================================
-if [[ -n "${_ALICIA_CORE_LOADED:-}" ]]; then
+if [[ -n "${_ALICIA_CORE_LOADED:-}" && -z "${_ALICIA_FORCE_RELOAD:-}" ]]; then
     return 0
 fi
 _ALICIA_CORE_LOADED=1

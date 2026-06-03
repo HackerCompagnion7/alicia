@@ -13,7 +13,7 @@
 
 # set -euo pipefail removed for library sourcing safety
 
-if [[ -n "${_ALICIA_STORAGE_LOADED:-}" ]]; then
+if [[ -n "${_ALICIA_STORAGE_LOADED:-}" && -z "${_ALICIA_FORCE_RELOAD:-}" ]]; then
     return 0
 fi
 _ALICIA_STORAGE_LOADED=1
@@ -35,7 +35,8 @@ source "${_ALICIA_LIB_DIR}/alicia-log.sh" 2>/dev/null || true
 storage_get_available_space() {
     local path="${1:-$HOME}"
     local avail
-    avail=$(df -BM "$path" 2>/dev/null | tail -1 | awk '{print $4}' | tr -d 'M')
+    # Use df -k for Termux compatibility (df -BM not supported)
+    avail=$(df -k "$path" 2>/dev/null | tail -1 | awk '{print int($4/1024)}')
     echo "${avail:-0}"
 }
 
@@ -43,7 +44,8 @@ storage_get_available_space() {
 storage_get_total_space() {
     local path="${1:-$HOME}"
     local total
-    total=$(df -BM "$path" 2>/dev/null | tail -1 | awk '{print $2}' | tr -d 'M')
+    # Use df -k for Termux compatibility (df -BM not supported)
+    total=$(df -k "$path" 2>/dev/null | tail -1 | awk '{print int($2/1024)}')
     echo "${total:-0}"
 }
 
@@ -51,7 +53,8 @@ storage_get_total_space() {
 storage_get_used_space() {
     local path="${1:-$HOME}"
     local used
-    used=$(df -BM "$path" 2>/dev/null | tail -1 | awk '{print $3}' | tr -d 'M')
+    # Use df -k for Termux compatibility (df -BM not supported)
+    used=$(df -k "$path" 2>/dev/null | tail -1 | awk '{print int($3/1024)}')
     echo "${used:-0}"
 }
 
